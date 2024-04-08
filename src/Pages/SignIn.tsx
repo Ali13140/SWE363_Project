@@ -2,11 +2,11 @@
 import React from 'react';
 //import './SignUp.css'; // Importing your custom CSS
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import TitleDiv from './TitleDiv';
-import './SignIn.css'
-import SignupForm from './SignupForm';
+import TitleDiv from '../TitleDiv';
+import LoginForm from "../LoginForm"
+import '../CSS_Files/SignIn.css'
 
-const SignUp: React.FC = () => {
+const SignIn: React.FC = () => {
   return (
     <div className="sign-in-page">
        <div className="task-div">
@@ -14,10 +14,10 @@ const SignUp: React.FC = () => {
 
     </div>
     <div className="sign-in-form">
-        <SignupForm></SignupForm>
+        <LoginForm></LoginForm>
     </div>
    
   </div>  );
 };
 
-export default SignUp;
+export default SignIn;
