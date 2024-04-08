@@ -1,0 +1,16 @@
+/* SignInPage.css */
+.sign-in-page {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .sign-in-form {
+    flex: 2;
+    margin: 50px;
+
+
+  }  
+  
+  .task-div {
+    flex: 1;
+  }
