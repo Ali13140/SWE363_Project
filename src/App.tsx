@@ -8,11 +8,13 @@ import NavBar from './NavBar';
 import HomePage from './Pages/HomePage';
 import MyListPage from './Pages/MyListPage';
 import NewListPage from './Pages/NewListPage';
+import ViewListPage from './Pages/ViewListPage';
+import ProfilePage from './Pages/ProfilePage';
 function App() {
   
 
   return (
-    <NewListPage></NewListPage>
+    <ProfilePage></ProfilePage>
   
   )
 }
