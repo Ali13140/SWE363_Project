@@ -1,0 +1,11 @@
+.password-requirement {
+    font-weight: bold;
+    color: red; /* Default color for "X" */
+    list-style-type: circle;
+  }
+  
+  .password-requirement-valid {
+    color: green; /* Change color to green for valid requirements */
+    list-style-type: disc;
+  }
+ 

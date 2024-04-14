@@ -2,6 +2,7 @@
 import React from 'react';
 // import './SignInForm.css'; // Import your custom CSS
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import { Link } from 'react-router-dom';
 
 const SignInForm= () => {
   return (
@@ -34,7 +35,7 @@ const SignInForm= () => {
         Forgot your password? <a href="/forgot-password">Click Here</a>
         </div>
         <div className="mt-3">
-          Don't have an account? <a href="/signup">Sign Up</a>
+          Don't have an account? <Link to="/signup">Sign Up</Link>
         </div>
       </form>
     </div>
