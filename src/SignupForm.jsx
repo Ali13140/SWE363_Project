@@ -3,7 +3,7 @@ import React from 'react';
 // import './SignInForm.css'; // Import your custom CSS
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
-const SignupForm: React.FC = () => {
+const SignupForm= () => {
   return (
     <div className="container">
       <h1>Login</h1>

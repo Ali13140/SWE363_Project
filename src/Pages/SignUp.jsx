@@ -6,7 +6,7 @@ import TitleDiv from '../TitleDiv';
 import '../CSS_Files/SignIn.css'
 import SignupForm from '../SignupForm';
 
-const SignUp: React.FC = () => {
+const SignUp= () => {
   return (
     <div className="sign-in-page">
        <div className="task-div">
