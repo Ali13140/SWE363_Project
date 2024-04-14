@@ -1,9 +1,9 @@
 // SignUp.tsx
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import TitleDiv from '../TitleDiv';
+import TitleDiv from '../Components/TitleDiv';
 import '../CSS_Files/SignIn.css'
-import SignupForm from '../SignupForm';
+import SignupForm from '../Components/SignupForm';
 
 const SignUp= () => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import NavBar from '../NavBar';
+import NavBar from '../Components/NavBar';
 import '../CSS_Files/ViewListPage.css'
 
 const ViewListPage = () => {

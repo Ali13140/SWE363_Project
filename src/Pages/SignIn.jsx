@@ -2,8 +2,8 @@
 import React from 'react';
 //import './SignUp.css'; // Importing your custom CSS
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import TitleDiv from '../TitleDiv';
-import LoginForm from "../LoginForm"
+import TitleDiv from '../Components/TitleDiv';
+import LoginForm from "../Components/LoginForm"
 import '../CSS_Files/SignIn.css'
 
 const SignIn = () => {
