@@ -1,6 +1,6 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import NavBar from '../Components/NavBar';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import NavBar from "../Components/NavBar";
 
 const ProfilePage = () => {
   return (
@@ -8,14 +8,14 @@ const ProfilePage = () => {
       <NavBar />
       <div className="container text-center mt-5">
         <img
-          src="src\profile.jpg" 
+          src="src\profile.jpg"
           alt="Profile"
           className="rounded-circle"
           width="150"
           height="150"
         />
         <h4 className="mt-3">John Doe</h4>
-        <div className="form-group mx-auto" style={{ maxWidth: '50vw' }}>
+        <div className="form-group mx-auto" style={{ maxWidth: "50vw" }}>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -25,7 +25,7 @@ const ProfilePage = () => {
             readOnly
           />
         </div>
-        <div className="form-group mx-auto" style={{ maxWidth: '50vw' }}>
+        <div className="form-group mx-auto" style={{ maxWidth: "50vw" }}>
           <label htmlFor="username">Username:</label>
           <input
             type="text"

@@ -1,6 +1,6 @@
 // TaskDoneComponent.tsx
-import React from 'react';
-import '../CSS_Files/TitleDiv.css'; // Import your custom CSS
+import React from "react";
+import "../CSS_Files/TitleDiv.css"; // Import your custom CSS
 
 const TitleDiv = () => {
   return (
