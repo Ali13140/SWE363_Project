@@ -9,6 +9,7 @@ import ProfilePage from './Pages/ProfilePage'
 import MyListPage from "./Pages/MyListPage"
 import NewListPage from "./Pages/NewListPage"
 import ViewListPage from "./Pages/ViewListPage"
+import ForgotPasswordPage from "./Pages/ForgotPasswordPage"
 
 
 const router=createBrowserRouter([
@@ -32,6 +33,9 @@ const router=createBrowserRouter([
 },
   {
     path:"/ViewListPage", element:<ViewListPage/>
+  }
+  ,{
+    path:"/ForgotPasswordPage", element:<ForgotPasswordPage/>
   }
 ]);
 

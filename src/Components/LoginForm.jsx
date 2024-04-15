@@ -37,7 +37,7 @@ const SignInForm= () => {
 
 
         <div className="mt-3">
-        Forgot your password? <a href="/forgot-password">Click Here</a>
+        Forgot your password? <a href="/ForgotPasswordPage">Click Here</a>
         </div>
         <div className="mt-3">
           Don't have an account? <Link to="/signup">Sign Up</Link>
