@@ -1,19 +1,60 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
+import "../CSS_Files/image.css";
 
 const ProfilePage = () => {
+  const [profilePic, setProfilePic] = useState(null);
+
+  const handleUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setProfilePic(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div>
       <NavBar />
       <div className="container text-center mt-5">
-        <img
-          src="src\profile.jpg"
-          alt="Profile"
-          className="rounded-circle"
-          width="150"
-          height="150"
-        />
+        <div>
+          <label style={{ position: "relative", display: "inline-block" }}>
+            <input
+              type="file"
+              onChange={handleUpload}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                opacity: 0,
+              }}
+            />
+            <div className="image-container">
+              {profilePic ? (
+                <img
+                  src={profilePic}
+                  alt="Profile"
+                  className="rounded-circle"
+                  width="150"
+                  height="150"
+                />
+              ) : (
+                "Click here to upload"
+              )}
+              <div className="overlay rounded-circle">
+                <div className="text">Edit Picture</div>
+              </div>
+            </div>
+          </label>
+        </div>
         <h4 className="mt-3">John Doe</h4>
         <div className="form-group mx-auto" style={{ maxWidth: "50vw" }}>
           <label htmlFor="email">Email:</label>

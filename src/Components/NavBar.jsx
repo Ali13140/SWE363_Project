@@ -1,29 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 import "../CSS_Files/NavBar.css";
 
 const NavBar = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
 
   useEffect(() => {
     document.body.className = isDarkTheme ? "dark-theme" : "light-theme";
+    localStorage.setItem("theme", isDarkTheme ? "dark" : "light");
   }, [isDarkTheme]);
 
   return (
     <nav
-      className="navbar navbar-expand-lg navbar-light bg-primary ${isDarkTheme ? 'dark-theme' : 'light-theme'}"
+      className={`navbar navbar-expand-lg navbar-light bg-primary ${
+        isDarkTheme ? "dark-theme" : "light-theme"
+      }`}
       style={{ height: "60px" }}
     >
-      <div className="container-fluid  ">
+      <div className="container-fluid">
         <Link
-          className="navbar-brand ${isDarkTheme ? 'dark-theme' : 'light-theme'}"
+          className={`navbar-brand ${
+            isDarkTheme ? "dark-theme" : "light-theme"
+          }`}
           to={"/HomePage"}
         >
           Home
         </Link>
-        <div class="form-check form-switch" id="a">
+        <div class="form-check form-switch">
           <input
             class="form-check-input"
             type="checkbox"
@@ -36,10 +42,16 @@ const NavBar = () => {
             X
           </label>
         </div>
-        <ul className="navbar-nav ms-auto ${isDarkTheme ? 'dark-theme' : 'light-theme'}">
+        <ul
+          className={`navbar-nav ms-auto ${
+            isDarkTheme ? "dark-theme" : "light-theme"
+          }`}
+        >
           <li className="nav-item">
             <Link
-              className="nav-link ${isDarkTheme ? 'dark-theme' : 'light-theme'}"
+              className={`nav-link ${
+                isDarkTheme ? "dark-theme" : "light-theme"
+              }`}
               to={"/Profile"}
             >
               <img

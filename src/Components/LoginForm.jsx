@@ -1,9 +1,10 @@
 // SignInForm.tsx
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignInForm = () => {
+  const nav = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -12,6 +13,8 @@ const SignInForm = () => {
 
     //Check if email and password are valid in the DB
     //If not, insert a div saying something is wrong under the password
+
+    nav("/HomePage");
   };
   return (
     <div className="container">
@@ -27,6 +30,7 @@ const SignInForm = () => {
             id="email"
             name="email"
             placeholder="Enter email"
+            required
             style={{ width: "50%" }}
           />
         </div>
@@ -41,6 +45,7 @@ const SignInForm = () => {
             className="form-control"
             aria-describedby="passwordHelpBlock"
             placeholder="Enter password"
+            required
             style={{ width: "50%" }}
           />
         </div>
