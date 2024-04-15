@@ -1,7 +1,7 @@
-li {
+#divs li {
     margin: 20px;;
 }
-.col{
+#divs{
     background-color:skyblue;
     margin: 20px;
 }

@@ -1,0 +1,36 @@
+/* Light theme */
+body.light-theme {
+    background-color: #ffffff; /* white */
+    color: #000000; /* black */
+  }
+  
+  .navbar.light-theme {
+    background-color: #f5f5f5; /* light gray */
+  }
+  
+  .nav-link.light-theme, .navbar-brand.light-theme {
+    color: #000000; /* black */
+  }
+  
+  .nav-link.light-theme:hover, .navbar-brand.light-theme:hover {
+    color: #333333; /* dark gray */
+  }
+  
+  /* Dark theme */
+  body.dark-theme {
+    background-color: #2f2f2f; /* dark gray */
+    color: #f5f5f5; /* light gray */
+  }
+  
+  .navbar.dark-theme {
+    background-color: #1a1a1a; /* darker gray */
+  }
+  
+  .nav-link.dark-theme, .navbar-brand.dark-theme {
+    color: #f5f5f5; /* light gray */
+  }
+  
+  .nav-link.dark-theme:hover, .navbar-brand.dark-theme:hover {
+    color: #ffffff; /* white */
+  }
+  

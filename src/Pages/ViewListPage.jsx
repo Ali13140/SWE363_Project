@@ -8,7 +8,7 @@ const ViewListPage = () => {
     <div><NavBar></NavBar>
     <div className="container mt-5" >
       <div className="row">
-        <div className="col" id='col'>
+        <div className="col" id='divs'>
           <h2>Title</h2>
         <ul className="list-group">
             <li className="list-group-item">An item</li>
@@ -18,7 +18,7 @@ const ViewListPage = () => {
             <li className="list-group-item">And a fifth one</li>
         </ul>
         </div>
-        <div className="col">
+        <div className="col" id='divs'>
           <h2>Details</h2>
         <ul className="list-group">
             <li className="list-group-item">An item</li>
@@ -28,7 +28,7 @@ const ViewListPage = () => {
             <li className="list-group-item">And a fifth one</li>
         </ul>
         </div>
-        <div className="col">
+        <div className="col" id='divs'>
           <h2>Date/Time</h2>
         <ul className="list-group">
             <li className="list-group-item">An item</li>
