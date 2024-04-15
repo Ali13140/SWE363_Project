@@ -4,7 +4,7 @@ import NavBar from "../Components/NavBar";
 import "../CSS_Files/image.css";
 
 const ProfilePage = () => {
-  const [profilePic, setProfilePic] = useState(null);
+  const [profilePic, setProfilePic] = useState("src/profile.jpg");
 
   const handleUpload = (event) => {
     const file = event.target.files[0];
@@ -42,6 +42,7 @@ const ProfilePage = () => {
                 <img
                   src={profilePic}
                   alt="Profile"
+                  aria-placeholder="src\profile.jpg"
                   className="rounded-circle"
                   width="150"
                   height="150"
