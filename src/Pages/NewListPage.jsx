@@ -28,13 +28,17 @@ const NewListPage = () => {
     }
   }, [data]);
 
+  const titleRef = useRef();
+  const detailsRef = useRef();
+  const dateRef = useRef();
+
   const handleCreateItem = (event) => {
     event.preventDefault(); // Prevent the form from refreshing the page
 
     const newItem = {
-      title: title,
-      details: details,
-      dateTime: date,
+      title: titleRef.current.value,
+      details: detailsRef.current.value,
+      dateTime: dateRef.current.value,
       status: "Other", // Or whatever default status you want
     };
 
@@ -57,7 +61,7 @@ const NewListPage = () => {
               id="title"
               placeholder="Title"
               defaultValue={data ? data.title : ""}
-              onChange={(e) => setTitle(e.target.value)}
+              ref={titleRef} // Use the ref here
             />
           </div>
           <div className="col">
@@ -70,7 +74,7 @@ const NewListPage = () => {
               id="details"
               placeholder="Details"
               defaultValue={data ? data.details : ""}
-              onChange={(e) => setDetails(e.target.value)}
+              ref={detailsRef} // Use the ref here
             />
           </div>
           <div className="col">
@@ -83,7 +87,7 @@ const NewListPage = () => {
               id="date"
               placeholder="Date"
               defaultValue={data ? data.dateTime : ""}
-              onChange={(e) => setDate(e.target.value)}
+              ref={dateRef} // Use the ref here
             />
           </div>
         </div>
