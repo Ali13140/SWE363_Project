@@ -4,7 +4,9 @@ import NavBar from "../Components/NavBar";
 import "../CSS_Files/image.css";
 
 const ProfilePage = () => {
-  const [profilePic, setProfilePic] = useState("src/profile.jpg");
+  const [profilePic, setProfilePic] = useState(
+    localStorage.getItem("profilePic") || "src/profile.jpg"
+  );
 
   const handleUpload = (event) => {
     const file = event.target.files[0];
@@ -12,6 +14,8 @@ const ProfilePage = () => {
 
     reader.onloadend = () => {
       setProfilePic(reader.result);
+      // Save the image data to localStorage
+      localStorage.setItem("profilePic", reader.result);
     };
 
     if (file) {

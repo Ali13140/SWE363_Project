@@ -1,36 +1,52 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
 import "../CSS_Files/ViewListPage.css";
 
 const ViewListPage = () => {
   // Simulate data from a database
-  const [data, setData] = useState([
-    {
-      title: "Item 1",
-      details: "Details 1",
-      dateTime: "Date/Time 1",
-      status: "Done",
-    },
-    {
-      title: "Item 2",
-      details: "Details 2",
-      dateTime: "Date/Time 2",
-      status: "Due",
-    },
-    {
-      title: "item 3",
-      details: "Details 3",
-      dateTime: "Date/Time 3",
-      status: "Other",
-    },
-    // Add more items as needed
-  ]);
+  const [data, setData] = useState(() => {
+    const savedData = localStorage.getItem("myData"); // This acts as a local DataBase until we implement the DB in the backend
+    return savedData
+      ? JSON.parse(savedData)
+      : [
+          {
+            title: "Item 1",
+            details: "Details 1",
+            dateTime: "Date/Time 1",
+            status: "Done",
+          },
+          {
+            title: "Item 2",
+            details: "Details 2",
+            dateTime: "Date/Time 2",
+            status: "Due",
+          },
+          {
+            title: "item 3",
+            details: "Details 3",
+            dateTime: "Date/Time 3",
+            status: "Other",
+          },
+          {
+            title: "item 3",
+            details: "Details 3",
+            dateTime: "Date/Time 3",
+            status: "Other",
+          },
+          // Add more items as needed
+        ];
+  });
+
+  // Save data to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("myData", JSON.stringify(data));
+  }, [data]);
+
   const handleDone = (index) => {
     const newData = [...data];
     newData[index].status = "Done";
     setData(newData);
-    console.log("YO?");
   };
 
   const handleEdit = (index) => {
@@ -38,11 +54,11 @@ const ViewListPage = () => {
     newData[index].status = "Due";
     setData(newData);
   };
-
   const handleRemove = (index) => {
     const newData = data.filter((item, i) => i !== index);
     setData(newData);
   };
+
   return (
     <div>
       <NavBar></NavBar>

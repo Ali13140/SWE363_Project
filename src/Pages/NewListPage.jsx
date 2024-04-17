@@ -3,11 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
 
 const NewListPage = () => {
+  const handleCreateItem = () => {};
+
   return (
     <div>
       {" "}
       <NavBar></NavBar>
-      <form className="mt-4 ">
+      <form className="mt-4 " onSubmit={handleCreateItem}>
         <div className="row mb-3">
           <div className="col">
             <label htmlFor="firstName" className="form-label">
