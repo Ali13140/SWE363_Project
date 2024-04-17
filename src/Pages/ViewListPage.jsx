@@ -49,10 +49,11 @@ const ViewListPage = () => {
 
   useEffect(() => {
     if (location.state && location.state.data) {
-      if (location.state.index1 !== undefined) {
+      if (location.state.index1 !== null) {
         handleUpdateItem(location.state.data, location.state.index1);
       } else {
         // If index doesn't exist, add a new item
+        console.log("Here?");
         const newData = [...data, location.state.data];
         setData(newData);
       }

@@ -7,11 +7,26 @@ const NavBar = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(
     localStorage.getItem("theme") === "dark"
   );
+  const [profilePic, setProfilePic] = useState(
+    localStorage.getItem("profilePic") || "src/profile.jpg"
+  );
 
   useEffect(() => {
     document.body.className = isDarkTheme ? "dark-theme" : "light-theme";
     localStorage.setItem("theme", isDarkTheme ? "dark" : "light");
   }, [isDarkTheme]);
+
+  useEffect(() => {
+    const updateProfilePic = () => {
+      setProfilePic(localStorage.getItem("profilePic") || "src/profile.jpg");
+    };
+
+    window.addEventListener("storage", updateProfilePic);
+
+    return () => {
+      window.removeEventListener("storage", updateProfilePic);
+    };
+  }, []);
 
   return (
     <nav
@@ -55,7 +70,7 @@ const NavBar = () => {
               to={"/Profile"}
             >
               <img
-                src="src\profile.jpg"
+                src={profilePic}
                 alt="Profile Picture"
                 className="rounded-circle"
                 width="50"
