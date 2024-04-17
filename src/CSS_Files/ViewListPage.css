@@ -5,3 +5,17 @@
     background-color:skyblue;
     margin: 20px;
 }
+.list-group-item.Done,.list-group-item.Due{
+    font-weight: bold;
+}
+.list-group-item.Done {
+    color: green;
+  }
+  
+  .list-group-item.Due {
+    color: red;
+  }
+  
+  
+  
+  
