@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
 import "../CSS_Files/ViewListPage.css";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ViewListPage = () => {
+  const location = useLocation();
+
+  const nav = useNavigate();
   // Simulate data from a database
   const [data, setData] = useState(() => {
     const savedData = localStorage.getItem("myData"); // This acts as a local DataBase until we implement the DB in the backend
@@ -13,7 +17,7 @@ const ViewListPage = () => {
           {
             title: "Item 1",
             details: "Details 1",
-            dateTime: "Date/Time 1",
+            dateTime: "10/10/2002",
             status: "Done",
           },
           {
@@ -43,6 +47,17 @@ const ViewListPage = () => {
     localStorage.setItem("myData", JSON.stringify(data));
   }, [data]);
 
+  useEffect(() => {
+    if (location.state && location.state.data) {
+      if (location.state.index1 !== undefined) {
+        handleUpdateItem(location.state.data, location.state.index1);
+      } else {
+        // If index doesn't exist, add a new item
+        const newData = [...data, location.state.data];
+        setData(newData);
+      }
+    }
+  }, [location]);
   const handleDone = (index) => {
     const newData = [...data];
     newData[index].status = "Done";
@@ -51,12 +66,25 @@ const ViewListPage = () => {
 
   const handleEdit = (index) => {
     const newData = [...data];
-    newData[index].status = "Due";
-    setData(newData);
+    // Navigate to the NewListPage and pass the object data
+    nav("/NewListPage", { state: { data: newData[index], index1: index } });
   };
+
   const handleRemove = (index) => {
     const newData = data.filter((item, i) => i !== index);
     setData(newData);
+    localStorage.setItem("myData", JSON.stringify(newData));
+  };
+  const handleUpdateItem = (updatedItem, index) => {
+    // Get the current items from the local storage
+    const savedItems = JSON.parse(localStorage.getItem("myData")) || [];
+
+    // Replace the item at the given index with the updated item
+    savedItems[index] = updatedItem;
+
+    // Save the updated items back to the local storage
+    localStorage.setItem("myData", JSON.stringify(savedItems));
+    setData(savedItems);
   };
 
   return (
