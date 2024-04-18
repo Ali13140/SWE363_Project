@@ -15,6 +15,9 @@ const NewListPage = () => {
 
   const data = location.state ? location.state.data : null;
   const date1 = location.state ? location.state.date : null;
+  const [stat, setstat] = useState(
+    location.state ? location.state.status : null
+  ); // Use useState instead of useRef
 
   const [index, setIndex] = useState(
     location.state ? location.state.index1 : null
@@ -37,12 +40,18 @@ const NewListPage = () => {
 
   const handleCreateItem = (event) => {
     event.preventDefault(); // Prevent the form from refreshing the page
-    console.log("Hey", dateRef.current.value);
+    const itemDate = new Date(dateRef.current.value);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to 00:00:00.000
+    let status;
+    console.log(stat);
+    if (stat == "Done") status = "Done";
+    else status = itemDate < today ? "Due" : "Other";
     const newItem = {
       title: titleRef.current.value,
       details: detailsRef.current.value,
       dateTime: dateRef.current.value,
-      status: "Other", // Or whatever default status you want
+      status: status, // Or whatever default status you want
     };
 
     // Navigate to the ViewListPage and pass the new item

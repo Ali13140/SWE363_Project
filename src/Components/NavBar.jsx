@@ -42,7 +42,7 @@ const NavBar = () => {
       style={{ height: "60px", backgroundColor: "#28cdba" }}
     >
       <div className="container-fluid d-flex justify-content-between">
-        <button type="button" class="btn " onClick={() => navigate(-1)}>
+        <button type="button" className="btn " onClick={() => navigate(-1)}>
           <img src={backIcon} alt="Back Icon" />
         </button>
 

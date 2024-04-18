@@ -94,7 +94,12 @@ const ViewListPage = () => {
     // Navigate to the NewListPage and pass the object data
     console.log("Here is the edited item ", newData[index]);
     nav("/NewListPage", {
-      state: { data: newData[index], index1: index, date: dateInfo },
+      state: {
+        data: newData[index],
+        index1: index,
+        date: dateInfo,
+        status: newData[index].status,
+      },
     });
   };
 
