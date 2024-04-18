@@ -36,17 +36,13 @@ const NavBar = () => {
 
   return (
     <nav
-      className={`navbar navbar-expand-lg navbar-light bg-primary ${
+      className={`navbar navbar-expand-lg  ${
         isDarkTheme ? "dark-theme" : "light-theme"
       }`}
-      style={{ height: "60px" }}
+      style={{ height: "60px", backgroundColor: "#28cdba" }}
     >
       <div className="container-fluid d-flex justify-content-between">
-        <button
-          type="button"
-          class="btn btn-primary"
-          onClick={() => navigate(-1)}
-        >
+        <button type="button" class="btn " onClick={() => navigate(-1)}>
           <img src={backIcon} alt="Back Icon" />
         </button>
 
@@ -61,7 +57,7 @@ const NavBar = () => {
 
         <div className="d-flex">
           <button
-            className="btn btn-outline-secondary me-2"
+            className="btn  me-2"
             onClick={() => setIsDarkTheme(!isDarkTheme)}
           >
             <img

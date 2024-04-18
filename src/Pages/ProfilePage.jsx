@@ -62,7 +62,7 @@ const ProfilePage = () => {
           </label>
         </div>
         <h4 className="mt-3">John Doe</h4>
-        <div className="form-group mx-auto" style={{ maxWidth: "50vw" }}>
+        <div className="form-group mx-auto" style={{ maxWidth: "30vw" }}>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -70,9 +70,10 @@ const ProfilePage = () => {
             className="form-control"
             value="john.doe@example.com"
             readOnly
+            style={{ backgroundColor: "#28cdba" }}
           />
         </div>
-        <div className="form-group mx-auto" style={{ maxWidth: "50vw" }}>
+        <div className="form-group mx-auto" style={{ maxWidth: "30vw" }}>
           <label htmlFor="username">Username:</label>
           <input
             type="text"
@@ -80,6 +81,7 @@ const ProfilePage = () => {
             className="form-control"
             value="johndoe123"
             readOnly
+            style={{ backgroundColor: "#28cdba" }}
           />
         </div>
       </div>

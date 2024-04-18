@@ -39,36 +39,56 @@ const MyListPage = () => {
       <NavBar></NavBar>
       <div className="d-grid gap-2 mt-4">
         <button
-          className="btn btn-primary"
+          className="btn "
           name="today"
           type="button"
-          style={{ marginTop: "80px", width: "50vw", marginLeft: "20px" }}
+          style={{
+            marginTop: "80px",
+            width: "50vw",
+            marginLeft: "20px",
+            backgroundColor: "#28cdba",
+          }}
           onClick={handleClick}
         >
           Today
         </button>
         <button
-          className="btn btn-primary"
+          className="btn"
           name="week"
           type="button"
-          style={{ marginTop: "80px", width: "50vw", marginLeft: "20px" }}
+          style={{
+            marginTop: "80px",
+            width: "50vw",
+            marginLeft: "20px",
+            backgroundColor: "#28cdba",
+          }}
           onClick={handleClick}
         >
           This Week
         </button>
         <button
-          className="btn btn-primary"
+          className="btn "
           name="month"
           type="button"
-          style={{ marginTop: "80px", width: "50vw", marginLeft: "20px" }}
+          style={{
+            marginTop: "80px",
+            width: "50vw",
+            marginLeft: "20px",
+            backgroundColor: "#28cdba",
+          }}
           onClick={handleClick}
         >
           This Month
         </button>
         <button
-          className="btn btn-primary"
+          className="btn "
           type="button"
-          style={{ marginTop: "80px", width: "50vw", marginLeft: "20px" }}
+          style={{
+            marginTop: "80px",
+            width: "50vw",
+            marginLeft: "20px",
+            backgroundColor: "#28cdba",
+          }}
           onClick={handleClick}
         >
           All

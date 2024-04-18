@@ -68,6 +68,7 @@ const NewListPage = () => {
               defaultValue={data ? data.title : ""}
               ref={titleRef} // Use the ref here
               required
+              style={{ border: "10px solid #28cdba" }}
             />
           </div>
           <div className="col">
@@ -81,6 +82,7 @@ const NewListPage = () => {
               placeholder="Details"
               defaultValue={data ? data.details : ""}
               ref={detailsRef} // Use the ref here
+              style={{ border: "10px solid #28cdba" }}
             />
           </div>
           <div className="col">
@@ -94,12 +96,19 @@ const NewListPage = () => {
               defaultValue={data ? data.dateTime : ""}
               ref={dateRef} // Use the ref here
               required
+              style={{ border: "10px solid #28cdba" }}
             />
           </div>
         </div>
-        <button type="submit" className="btn btn-success ">
-          {buttonText}
-        </button>
+        <div className="text-center">
+          <button
+            type="submit"
+            className="btn "
+            style={{ backgroundColor: "#28cdba" }}
+          >
+            {buttonText}
+          </button>
+        </div>
       </form>
     </div>
   );

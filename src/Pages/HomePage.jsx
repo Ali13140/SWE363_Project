@@ -21,18 +21,20 @@ const HomePage = () => {
         <br />
         <div className="d-grid gap-2 d-md-flex justify-content-md-center  d-md-block">
           <button
-            className="btn btn-primary me-md-2"
+            className="btn  me-md-2"
             type="button"
             name="list"
             onClick={handleClick}
+            style={{ backgroundColor: "#28cdba" }}
           >
             My List
           </button>
           <button
-            className="btn btn-primary"
+            className="btn "
             type="button"
             name="newList"
             onClick={handleClick}
+            style={{ backgroundColor: "#28cdba" }}
           >
             Create New List
           </button>
