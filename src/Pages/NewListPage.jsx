@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import DateTimePicker from "../Components/TimePicker";
+import "./Alert";
 
 const NewListPage = () => {
   const location = useLocation();
@@ -14,6 +15,8 @@ const NewListPage = () => {
   const buttonTextRef = useRef(buttonText);
 
   const data = location.state ? location.state.data : null;
+  const date1 = location.state ? location.state.date : null;
+
   const [index, setIndex] = useState(
     location.state ? location.state.index1 : null
   ); // Use useState instead of useRef
@@ -35,7 +38,7 @@ const NewListPage = () => {
 
   const handleCreateItem = (event) => {
     event.preventDefault(); // Prevent the form from refreshing the page
-
+    console.log("Hey", dateRef.current.value);
     const newItem = {
       title: titleRef.current.value,
       details: detailsRef.current.value,
@@ -44,7 +47,9 @@ const NewListPage = () => {
     };
 
     // Navigate to the ViewListPage and pass the new item
-    nav("/ViewListPage", { state: { data: newItem, index1: index } });
+    nav("/ViewListPage", {
+      state: { data: newItem, index1: index, date: date1 },
+    });
   };
 
   return (

@@ -6,7 +6,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const ViewListPage = () => {
   const location = useLocation();
-  const dateInfo = location.state.date;
+  const dateInfo = location.state ? location.state.date : null;
+  const [currentDateInfo, setCurrentDateInfo] = useState(null);
 
   const nav = useNavigate();
   // Simulate data from a database
@@ -46,7 +47,14 @@ const ViewListPage = () => {
   // Save data to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("myData", JSON.stringify(data));
+    console.log("Problem?", dateInfo);
   }, [data]);
+
+  useEffect(() => {
+    if (location.state) {
+      setCurrentDateInfo(location.state.date);
+    }
+  }, [location]);
 
   useEffect(() => {
     if (location.state && location.state.data) {
@@ -70,20 +78,26 @@ const ViewListPage = () => {
     const newData = [...data];
     if (newData[index].status == "Done") newData[index].status = "Other";
     else newData[index].status = "Done";
+
     setData(newData);
+  };
+
+  const handleRemove = (index) => {
+    const newData = data.filter((item, i) => i !== index);
+
+    setData(newData);
+    localStorage.setItem("myData", JSON.stringify(newData));
   };
 
   const handleEdit = (index) => {
     const newData = [...data];
     // Navigate to the NewListPage and pass the object data
-    nav("/NewListPage", { state: { data: newData[index], index1: index } });
+    console.log("Here is the edited item ", newData[index]);
+    nav("/NewListPage", {
+      state: { data: newData[index], index1: index, date: dateInfo },
+    });
   };
 
-  const handleRemove = (index) => {
-    const newData = data.filter((item, i) => i !== index);
-    setData(newData);
-    localStorage.setItem("myData", JSON.stringify(newData));
-  };
   const handleUpdateItem = (updatedItem, index) => {
     // Get the current items from the local storage
     const savedItems = JSON.parse(localStorage.getItem("myData")) || [];
@@ -106,15 +120,19 @@ const ViewListPage = () => {
             <h2>Title</h2>
             <ul className="list-group">
               {data
+                .map((item, index) => ({ ...item, originalIndex: index })) // Add originalIndex to each item
                 .filter((item) => {
-                  if (!dateInfo) return true; // If no dateInfo, show all items
+                  if (!currentDateInfo) return true; // If no currentDateInfo, show all items
                   const itemDate = new Date(item.dateTime);
-                  if (dateInfo.date) {
-                    const date = new Date(dateInfo.date);
+                  if (currentDateInfo.date) {
+                    const date = new Date(currentDateInfo.date);
                     return itemDate.toDateString() === date.toDateString();
-                  } else if (dateInfo.startDate && dateInfo.endDate) {
-                    const startDate = new Date(dateInfo.startDate);
-                    const endDate = new Date(dateInfo.endDate);
+                  } else if (
+                    currentDateInfo.startDate &&
+                    currentDateInfo.endDate
+                  ) {
+                    const startDate = new Date(currentDateInfo.startDate);
+                    const endDate = new Date(currentDateInfo.endDate);
                     return itemDate >= startDate && itemDate <= endDate;
                   }
                 })
@@ -133,7 +151,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleDone(index)}
+                            onClick={() => handleDone(item.originalIndex)}
                           >
                             Done
                           </a>
@@ -142,7 +160,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleEdit(index)}
+                            onClick={() => handleEdit(item.originalIndex)}
                           >
                             Edit
                           </a>
@@ -156,7 +174,7 @@ const ViewListPage = () => {
                             className="dropdown-item"
                             href="#"
                             style={{ color: "red" }}
-                            onClick={() => handleRemove(index)}
+                            onClick={() => handleRemove(item.originalIndex)}
                           >
                             Remove
                           </a>
@@ -171,15 +189,19 @@ const ViewListPage = () => {
             <h2>Details</h2>
             <ul className="list-group">
               {data
+                .map((item, index) => ({ ...item, originalIndex: index })) // Add originalIndex to each item
                 .filter((item) => {
-                  if (!dateInfo) return true; // If no dateInfo, show all items
+                  if (!currentDateInfo) return true; // If no currentDateInfo, show all items
                   const itemDate = new Date(item.dateTime);
-                  if (dateInfo.date) {
-                    const date = new Date(dateInfo.date);
+                  if (currentDateInfo.date) {
+                    const date = new Date(currentDateInfo.date);
                     return itemDate.toDateString() === date.toDateString();
-                  } else if (dateInfo.startDate && dateInfo.endDate) {
-                    const startDate = new Date(dateInfo.startDate);
-                    const endDate = new Date(dateInfo.endDate);
+                  } else if (
+                    currentDateInfo.startDate &&
+                    currentDateInfo.endDate
+                  ) {
+                    const startDate = new Date(currentDateInfo.startDate);
+                    const endDate = new Date(currentDateInfo.endDate);
                     return itemDate >= startDate && itemDate <= endDate;
                   }
                 })
@@ -198,7 +220,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleDone(index)}
+                            onClick={() => handleDone(item.originalIndex)}
                           >
                             Done
                           </a>
@@ -207,7 +229,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleEdit(index)}
+                            onClick={() => handleEdit(item.originalIndex)}
                           >
                             Edit
                           </a>
@@ -221,7 +243,7 @@ const ViewListPage = () => {
                             className="dropdown-item"
                             href="#"
                             style={{ color: "red" }}
-                            onClick={() => handleRemove(index)}
+                            onClick={() => handleRemove(item.originalIndex)}
                           >
                             Remove
                           </a>
@@ -236,15 +258,19 @@ const ViewListPage = () => {
             <h2>Date/Time</h2>
             <ul className="list-group">
               {data
+                .map((item, index) => ({ ...item, originalIndex: index })) // Add originalIndex to each item
                 .filter((item) => {
-                  if (!dateInfo) return true; // If no dateInfo, show all items
+                  if (!currentDateInfo) return true; // If no currentDateInfo, show all items
                   const itemDate = new Date(item.dateTime);
-                  if (dateInfo.date) {
-                    const date = new Date(dateInfo.date);
+                  if (currentDateInfo.date) {
+                    const date = new Date(currentDateInfo.date);
                     return itemDate.toDateString() === date.toDateString();
-                  } else if (dateInfo.startDate && dateInfo.endDate) {
-                    const startDate = new Date(dateInfo.startDate);
-                    const endDate = new Date(dateInfo.endDate);
+                  } else if (
+                    currentDateInfo.startDate &&
+                    currentDateInfo.endDate
+                  ) {
+                    const startDate = new Date(currentDateInfo.startDate);
+                    const endDate = new Date(currentDateInfo.endDate);
                     return itemDate >= startDate && itemDate <= endDate;
                   }
                 })
@@ -263,7 +289,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleDone(index)}
+                            onClick={() => handleDone(item.originalIndex)}
                           >
                             Done
                           </a>
@@ -272,7 +298,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleEdit(index)}
+                            onClick={() => handleEdit(item.originalIndex)}
                           >
                             Edit
                           </a>
@@ -286,7 +312,7 @@ const ViewListPage = () => {
                             className="dropdown-item"
                             href="#"
                             style={{ color: "red" }}
-                            onClick={() => handleRemove(index)}
+                            onClick={() => handleRemove(item.originalIndex)}
                           >
                             Remove
                           </a>
