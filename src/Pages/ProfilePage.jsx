@@ -40,6 +40,7 @@ const ProfilePage = () => {
                 height: "100%",
                 opacity: 0,
               }}
+              accept="image/*"
             />
             <div className="image-container">
               {profilePic ? (

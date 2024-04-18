@@ -61,7 +61,8 @@ const ViewListPage = () => {
   }, [location]);
   const handleDone = (index) => {
     const newData = [...data];
-    newData[index].status = "Done";
+    if (newData[index].status == "Done") newData[index].status = "Other";
+    else newData[index].status = "Done";
     setData(newData);
   };
 

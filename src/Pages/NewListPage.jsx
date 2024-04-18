@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
+import DateTimePicker from "../Components/TimePicker";
 
 const NewListPage = () => {
   const location = useLocation();
@@ -62,6 +63,7 @@ const NewListPage = () => {
               placeholder="Title"
               defaultValue={data ? data.title : ""}
               ref={titleRef} // Use the ref here
+              required
             />
           </div>
           <div className="col">
@@ -81,13 +83,13 @@ const NewListPage = () => {
             <label htmlFor="date" className="form-label">
               Date
             </label>
-            <input
-              type="Date"
+            <DateTimePicker
               className="form-control"
               id="date"
               placeholder="Date"
               defaultValue={data ? data.dateTime : ""}
               ref={dateRef} // Use the ref here
+              required
             />
           </div>
         </div>
