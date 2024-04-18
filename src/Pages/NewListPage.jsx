@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import DateTimePicker from "../Components/TimePicker";
-import "./Alert";
 
 const NewListPage = () => {
   const location = useLocation();

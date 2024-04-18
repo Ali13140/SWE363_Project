@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import lightThemeIcon from "../assets/moon.svg";
+import darkThemeIcon from "../assets/moon-fill.svg";
+import backIcon from "../assets/arrow-left.svg";
 
 import "../CSS_Files/NavBar.css";
 
@@ -10,6 +14,8 @@ const NavBar = () => {
   const [profilePic, setProfilePic] = useState(
     localStorage.getItem("profilePic") || "src/profile.jpg"
   );
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.className = isDarkTheme ? "dark-theme" : "light-theme";
@@ -35,7 +41,15 @@ const NavBar = () => {
       }`}
       style={{ height: "60px" }}
     >
-      <div className="container-fluid">
+      <div className="container-fluid d-flex justify-content-between">
+        <button
+          type="button"
+          class="btn btn-primary"
+          onClick={() => navigate(-1)}
+        >
+          <img src={backIcon} alt="Back Icon" />
+        </button>
+
         <Link
           className={`navbar-brand ${
             isDarkTheme ? "dark-theme" : "light-theme"
@@ -44,41 +58,31 @@ const NavBar = () => {
         >
           Home
         </Link>
-        <div className="form-check form-switch">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            role="switch"
-            id="flexSwitch"
-            checked={isDarkTheme}
-            onChange={() => setIsDarkTheme(!isDarkTheme)}
-          />
-          <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
-            X
-          </label>
+
+        <div className="d-flex">
+          <button
+            className="btn btn-outline-secondary me-2"
+            onClick={() => setIsDarkTheme(!isDarkTheme)}
+          >
+            <img
+              src={isDarkTheme ? darkThemeIcon : lightThemeIcon}
+              alt="Theme Icon"
+            />
+          </button>
+
+          <Link
+            className={`nav-link ${isDarkTheme ? "dark-theme" : "light-theme"}`}
+            to={"/Profile"}
+          >
+            <img
+              src={profilePic}
+              alt="Profile Picture"
+              className="rounded-circle"
+              width="50"
+              height="50"
+            />
+          </Link>
         </div>
-        <ul
-          className={`navbar-nav ms-auto ${
-            isDarkTheme ? "dark-theme" : "light-theme"
-          }`}
-        >
-          <li className="nav-item">
-            <Link
-              className={`nav-link ${
-                isDarkTheme ? "dark-theme" : "light-theme"
-              }`}
-              to={"/Profile"}
-            >
-              <img
-                src={profilePic}
-                alt="Profile Picture"
-                className="rounded-circle"
-                width="50"
-                height="50"
-              />
-            </Link>
-          </li>
-        </ul>
       </div>
     </nav>
   );
