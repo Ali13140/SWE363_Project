@@ -17,25 +17,25 @@ const ViewListPage = () => {
           {
             title: "Item 1",
             details: "Details 1",
-            dateTime: "10/10/2002",
+            dateTime: "10/10/2024 1:41PM",
             status: "Done",
           },
           {
             title: "Item 2",
             details: "Details 2",
-            dateTime: "Date/Time 2",
+            dateTime: "10/10/2024 3:41PM",
             status: "Due",
           },
           {
             title: "item 3",
             details: "Details 3",
-            dateTime: "Date/Time 3",
+            dateTime: "10/10/2024 5:41PM",
             status: "Other",
           },
           {
             title: "item 3",
             details: "Details 3",
-            dateTime: "Date/Time 3",
+            dateTime: "10/10/2024 4:41PM",
             status: "Other",
           },
           // Add more items as needed
@@ -53,12 +53,19 @@ const ViewListPage = () => {
         handleUpdateItem(location.state.data, location.state.index1);
       } else {
         // If index doesn't exist, add a new item
-        console.log("Here?");
         const newData = [...data, location.state.data];
-        setData(newData);
+        const sortedData = sortItems(newData);
+        localStorage.setItem("myData", JSON.stringify(sortedData));
+        setData(sortedData);
       }
     }
   }, [location]);
+  const sortItems = (items) => {
+    return [...items].sort(
+      (a, b) => new Date(a.dateTime) - new Date(b.dateTime)
+    );
+  };
+
   const handleDone = (index) => {
     const newData = [...data];
     if (newData[index].status == "Done") newData[index].status = "Other";
@@ -83,10 +90,11 @@ const ViewListPage = () => {
 
     // Replace the item at the given index with the updated item
     savedItems[index] = updatedItem;
+    const sortedItems = sortItems(savedItems);
 
     // Save the updated items back to the local storage
-    localStorage.setItem("myData", JSON.stringify(savedItems));
-    setData(savedItems);
+    localStorage.setItem("myData", JSON.stringify(sortedItems));
+    setData(sortedItems);
   };
 
   return (
