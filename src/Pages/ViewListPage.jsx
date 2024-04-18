@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const ViewListPage = () => {
   const location = useLocation();
+  const dateInfo = location.state.date;
 
   const nav = useNavigate();
   // Simulate data from a database
@@ -55,7 +56,6 @@ const ViewListPage = () => {
         // If index doesn't exist, add a new item
         const newData = [...data, location.state.data];
         const sortedData = sortItems(newData);
-        localStorage.setItem("myData", JSON.stringify(sortedData));
         setData(sortedData);
       }
     }
@@ -105,157 +105,196 @@ const ViewListPage = () => {
           <div className="col" id="divs">
             <h2>Title</h2>
             <ul className="list-group">
-              {data.map((item, index) => (
-                <li key={index} className={`list-group-item ${item.status}`}>
-                  {item.title}
-                  <div className="btn-group">
-                    <button
-                      type="button"
-                      className="btn  dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    ></button>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={() => handleDone(index)}
-                        >
-                          Done
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={() => handleEdit(index)}
-                        >
-                          Edit
-                        </a>
-                      </li>
-                      <li>
-                        <hr className="dropdown-divider" />
-                      </li>
+              {data
+                .filter((item) => {
+                  if (!dateInfo) return true; // If no dateInfo, show all items
+                  const itemDate = new Date(item.dateTime);
+                  if (dateInfo.date) {
+                    const date = new Date(dateInfo.date);
+                    return itemDate.toDateString() === date.toDateString();
+                  } else if (dateInfo.startDate && dateInfo.endDate) {
+                    const startDate = new Date(dateInfo.startDate);
+                    const endDate = new Date(dateInfo.endDate);
+                    return itemDate >= startDate && itemDate <= endDate;
+                  }
+                })
+                .map((item, index) => (
+                  <li key={index} className={`list-group-item ${item.status}`}>
+                    {item.title}
+                    <div className="btn-group">
+                      <button
+                        type="button"
+                        className="btn  dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      ></button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            onClick={() => handleDone(index)}
+                          >
+                            Done
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            onClick={() => handleEdit(index)}
+                          >
+                            Edit
+                          </a>
+                        </li>
+                        <li>
+                          <hr className="dropdown-divider" />
+                        </li>
 
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          style={{ color: "red" }}
-                          onClick={() => handleRemove(index)}
-                        >
-                          Remove
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              ))}
+                        <li>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            style={{ color: "red" }}
+                            onClick={() => handleRemove(index)}
+                          >
+                            Remove
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
           <div className="col" id="divs">
             <h2>Details</h2>
             <ul className="list-group">
-              {data.map((item, index) => (
-                <li key={index} className={`list-group-item ${item.status}`}>
-                  {item.details}
-                  <div className="btn-group">
-                    <button
-                      type="button"
-                      className="btn  dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    ></button>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={() => handleDone(index)}
-                        >
-                          Done
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={() => handleEdit(index)}
-                        >
-                          Edit
-                        </a>
-                      </li>
-                      <li>
-                        <hr className="dropdown-divider" />
-                      </li>
+              {data
+                .filter((item) => {
+                  if (!dateInfo) return true; // If no dateInfo, show all items
+                  const itemDate = new Date(item.dateTime);
+                  if (dateInfo.date) {
+                    const date = new Date(dateInfo.date);
+                    return itemDate.toDateString() === date.toDateString();
+                  } else if (dateInfo.startDate && dateInfo.endDate) {
+                    const startDate = new Date(dateInfo.startDate);
+                    const endDate = new Date(dateInfo.endDate);
+                    return itemDate >= startDate && itemDate <= endDate;
+                  }
+                })
+                .map((item, index) => (
+                  <li key={index} className={`list-group-item ${item.status}`}>
+                    {item.details}
+                    <div className="btn-group">
+                      <button
+                        type="button"
+                        className="btn  dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      ></button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            onClick={() => handleDone(index)}
+                          >
+                            Done
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            onClick={() => handleEdit(index)}
+                          >
+                            Edit
+                          </a>
+                        </li>
+                        <li>
+                          <hr className="dropdown-divider" />
+                        </li>
 
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          style={{ color: "red" }}
-                          onClick={() => handleRemove(index)}
-                        >
-                          Remove
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              ))}
+                        <li>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            style={{ color: "red" }}
+                            onClick={() => handleRemove(index)}
+                          >
+                            Remove
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
           <div className="col" id="divs">
             <h2>Date/Time</h2>
             <ul className="list-group">
-              {data.map((item, index) => (
-                <li key={index} className={`list-group-item ${item.status}`}>
-                  {item.dateTime}
-                  <div className="btn-group">
-                    <button
-                      type="button"
-                      className="btn  dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    ></button>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={() => handleDone(index)}
-                        >
-                          Done
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={() => handleEdit(index)}
-                        >
-                          Edit
-                        </a>
-                      </li>
-                      <li>
-                        <hr className="dropdown-divider" />
-                      </li>
+              {data
+                .filter((item) => {
+                  if (!dateInfo) return true; // If no dateInfo, show all items
+                  const itemDate = new Date(item.dateTime);
+                  if (dateInfo.date) {
+                    const date = new Date(dateInfo.date);
+                    return itemDate.toDateString() === date.toDateString();
+                  } else if (dateInfo.startDate && dateInfo.endDate) {
+                    const startDate = new Date(dateInfo.startDate);
+                    const endDate = new Date(dateInfo.endDate);
+                    return itemDate >= startDate && itemDate <= endDate;
+                  }
+                })
+                .map((item, index) => (
+                  <li key={index} className={`list-group-item ${item.status}`}>
+                    {item.dateTime}
+                    <div className="btn-group">
+                      <button
+                        type="button"
+                        className="btn  dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      ></button>
+                      <ul className="dropdown-menu">
+                        <li>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            onClick={() => handleDone(index)}
+                          >
+                            Done
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            onClick={() => handleEdit(index)}
+                          >
+                            Edit
+                          </a>
+                        </li>
+                        <li>
+                          <hr className="dropdown-divider" />
+                        </li>
 
-                      <li>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          style={{ color: "red" }}
-                          onClick={() => handleRemove(index)}
-                        >
-                          Remove
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
-              ))}
+                        <li>
+                          <a
+                            className="dropdown-item"
+                            href="#"
+                            style={{ color: "red" }}
+                            onClick={() => handleRemove(index)}
+                          >
+                            Remove
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
