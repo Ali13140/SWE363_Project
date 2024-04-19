@@ -83,7 +83,13 @@ const ViewListPage = () => {
 
   const handleDone = (index) => {
     const newData = [...data];
-    if (newData[index].status == "Done") newData[index].status = "Other";
+    const itemDate = new Date(newData[index].dateTime);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to 00:00:00.000
+    let status;
+    status = itemDate < today ? "Due" : "Other";
+
+    if (newData[index].status == "Done") newData[index].status = status;
     else newData[index].status = "Done";
 
     setData(newData);
@@ -126,6 +132,7 @@ const ViewListPage = () => {
     nav("/NewListPage", {
       state: {
         date: dateInfo,
+        name: dateName,
       },
     });
   };
