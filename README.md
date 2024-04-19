@@ -1,8 +1,15 @@
-# React + Vite
+# TaskDone: Your Personal Academic Task Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
 
-Currently, two official plugins are available:
+Welcome to TaskDone, your personal academic task manager. In the fast-paced world of academia, juggling assignments, coursework, and extracurricular activities can be overwhelming. TaskDone is here to help. Designed with students in mind, our tool simplifies task management, fosters effective teamwork, and empowers students to navigate their academic journey with confidence.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Target Users
+
+TaskDone is built for students across all academic levels. Whether you're in high school, college, or university, if you're looking for an efficient way to manage your academic tasks, TaskDone is for you.
+
+## Tech Stack
+
+Our front-end is built with React and Bootstrap, closely following the design we created in Figma. We've implemented all possible front-end functionalities and used the LocalStorage API as a temporary database solution.
+
+For our back-end (currently under development), we plan to use MongoDB for our database. This will store user information for validating sign-ups and sign-ins. We also plan to implement a two-way verification and password recovery service.
