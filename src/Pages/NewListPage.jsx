@@ -14,7 +14,9 @@ const NewListPage = () => {
   const buttonTextRef = useRef(buttonText);
 
   const data = location.state ? location.state.data : null;
-  const date1 = location.state ? location.state.date : null;
+  const [date1, setdate1] = useState(
+    location.state ? location.state.date : null
+  ); // Use useState instead of useRef
   const [stat, setstat] = useState(
     location.state ? location.state.status : null
   ); // Use useState instead of useRef
@@ -57,7 +59,7 @@ const NewListPage = () => {
         dateTime: dateRef.current.value,
         status: status, // Or whatever default status you want
       };
-
+      console.log("Here is the new data", newItem);
       // Navigate to the ViewListPage and pass the new item
       nav("/ViewListPage", {
         state: { data: newItem, index1: index, date: date1 },

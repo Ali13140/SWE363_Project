@@ -12,16 +12,16 @@ const MyListPage = () => {
     const buttonName = button.name;
     let dateInfo;
 
-    if (buttonName === "today") {
+    if (buttonName === "Today") {
       dateInfo = { date: moment().format("YYYY-MM-DD hh:mm A") }; // Today's date
-    } else if (buttonName === "week") {
+    } else if (buttonName === "Week") {
       const today = moment();
       const oneWeekAgo = moment().subtract(7, "days");
       dateInfo = {
         startDate: oneWeekAgo.format("YYYY-MM-DD hh:mm A"),
         endDate: today.format("YYYY-MM-DD hh:mm A"),
       }; // Last 7 days
-    } else if (buttonName === "month") {
+    } else if (buttonName === "Month") {
       const today = moment();
       const oneMonthAgo = moment().subtract(1, "months");
       dateInfo = {
@@ -30,7 +30,7 @@ const MyListPage = () => {
       }; // Last 30 days
     }
 
-    nav("/ViewListPage", { state: { date: dateInfo } });
+    nav("/ViewListPage", { state: { date: dateInfo, name: buttonName } });
   };
 
   return (
@@ -40,7 +40,7 @@ const MyListPage = () => {
       <div className="d-grid gap-2 mt-4">
         <button
           className="btn "
-          name="today"
+          name="Today"
           type="button"
           style={{
             marginTop: "80px",
@@ -54,7 +54,7 @@ const MyListPage = () => {
         </button>
         <button
           className="btn"
-          name="week"
+          name="Week"
           type="button"
           style={{
             marginTop: "80px",
@@ -68,7 +68,7 @@ const MyListPage = () => {
         </button>
         <button
           className="btn "
-          name="month"
+          name="Month"
           type="button"
           style={{
             marginTop: "80px",

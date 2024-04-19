@@ -3,10 +3,17 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
 import "../CSS_Files/ViewListPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
+import addIcon from "../assets/plus-circle.svg";
 
 const ViewListPage = () => {
   const location = useLocation();
-  const dateInfo = location.state ? location.state.date : null;
+  const [dateInfo, setdateInfo] = useState(
+    location.state ? location.state.date : null
+  ); // Use useState instead of useRef
+  const [dateName, setdateName] = useState(
+    location.state ? location.state.name : null
+  ); // Use useState instead of useRef
+
   const [currentDateInfo, setCurrentDateInfo] = useState(null);
 
   const nav = useNavigate();
@@ -47,7 +54,7 @@ const ViewListPage = () => {
   // Save data to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("myData", JSON.stringify(data));
-    console.log("Problem?", dateInfo);
+    console.log("List?", dateName);
   }, [data]);
 
   useEffect(() => {
@@ -58,7 +65,7 @@ const ViewListPage = () => {
 
   useEffect(() => {
     if (location.state && location.state.data) {
-      if (location.state.index1 !== null) {
+      if (location.state.index1) {
         handleUpdateItem(location.state.data, location.state.index1);
       } else {
         // If index doesn't exist, add a new item
@@ -92,7 +99,6 @@ const ViewListPage = () => {
   const handleEdit = (index) => {
     const newData = [...data];
     // Navigate to the NewListPage and pass the object data
-    console.log("Here is the edited item ", newData[index]);
     nav("/NewListPage", {
       state: {
         data: newData[index],
@@ -115,14 +121,57 @@ const ViewListPage = () => {
     localStorage.setItem("myData", JSON.stringify(sortedItems));
     setData(sortedItems);
   };
+  const handleAdd = () => {
+    console.log("Is here? ", dateInfo);
+    nav("/NewListPage", {
+      state: {
+        date: dateInfo,
+      },
+    });
+  };
 
   return (
     <div>
-      <NavBar></NavBar>
+      <NavBar></NavBar> <br />
+      <h1
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        {dateName === ""
+          ? "All"
+          : `${dateName === "Today" ? "" : "This "}${dateName}'s List`}
+      </h1>
       <div className="container mt-5">
         <div className="row">
           <div className="col" id="divs">
-            <h2>Title</h2>
+            <h2>
+              Title{" "}
+              <button
+                className="btn me-2"
+                onClick={handleAdd}
+                style={{
+                  position: "relative",
+                  display: "inline-flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={addIcon}
+                  alt="Theme Icon"
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+              </button>
+            </h2>
+
             <ul className="list-group">
               {data
                 .map((item, index) => ({ ...item, originalIndex: index })) // Add originalIndex to each item
@@ -191,7 +240,31 @@ const ViewListPage = () => {
             </ul>
           </div>
           <div className="col" id="divs">
-            <h2>Details</h2>
+            <h2>
+              Details{" "}
+              <button
+                className="btn me-2"
+                onClick={handleAdd}
+                style={{
+                  position: "relative",
+                  display: "inline-flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={addIcon}
+                  alt="Theme Icon"
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+              </button>
+            </h2>
+
             <ul className="list-group">
               {data
                 .map((item, index) => ({ ...item, originalIndex: index })) // Add originalIndex to each item
@@ -260,7 +333,31 @@ const ViewListPage = () => {
             </ul>
           </div>
           <div className="col" id="divs">
-            <h2>Date/Time</h2>
+            <h2>
+              Date/Time{" "}
+              <button
+                className="btn me-2"
+                onClick={handleAdd}
+                style={{
+                  position: "relative",
+                  display: "inline-flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={addIcon}
+                  alt="Theme Icon"
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                />
+              </button>
+            </h2>
+
             <ul className="list-group">
               {data
                 .map((item, index) => ({ ...item, originalIndex: index })) // Add originalIndex to each item
