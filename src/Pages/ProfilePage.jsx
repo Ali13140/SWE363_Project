@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
 import "../CSS_Files/image.css";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
+  const nav = useNavigate();
   const [profilePic, setProfilePic] = useState(
     localStorage.getItem("profilePic") || "src/profile.jpg"
   );
@@ -21,6 +23,9 @@ const ProfilePage = () => {
     if (file) {
       reader.readAsDataURL(file);
     }
+  };
+  const HandleLogOut = () => {
+    nav("/SignIn");
   };
 
   return (
@@ -84,6 +89,12 @@ const ProfilePage = () => {
             style={{ backgroundColor: "#28cdba", textAlign: "center" }}
           />
         </div>
+      </div>
+      <br />
+      <div class="d-flex justify-content-center align-items-center">
+        <button type="button" class="btn btn-danger" onClick={HandleLogOut}>
+          Log Out
+        </button>
       </div>
     </div>
   );
