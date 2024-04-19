@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import HomePage from "./Pages/HomePage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "jquery/dist/jquery.min.js";

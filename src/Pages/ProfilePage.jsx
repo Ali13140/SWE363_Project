@@ -70,7 +70,7 @@ const ProfilePage = () => {
             className="form-control"
             value="john.doe@example.com"
             readOnly
-            style={{ backgroundColor: "#28cdba" }}
+            style={{ backgroundColor: "#28cdba", textAlign: "center" }}
           />
         </div>
         <div className="form-group mx-auto" style={{ maxWidth: "30vw" }}>
@@ -81,7 +81,7 @@ const ProfilePage = () => {
             className="form-control"
             value="johndoe123"
             readOnly
-            style={{ backgroundColor: "#28cdba" }}
+            style={{ backgroundColor: "#28cdba", textAlign: "center" }}
           />
         </div>
       </div>
