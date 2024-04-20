@@ -32,7 +32,7 @@ const ViewListPage = () => {
           {
             title: "Item 2",
             details: "Details 2",
-            dateTime: "10/10/2024 3:41PM",
+            dateTime: "10/1/2024 3:41PM",
             status: "Due",
           },
           {
