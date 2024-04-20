@@ -54,7 +54,6 @@ const ViewListPage = () => {
   // Save data to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("myData", JSON.stringify(data));
-    console.log("List?", dateName);
   }, [data]);
 
   useEffect(() => {
@@ -111,6 +110,7 @@ const ViewListPage = () => {
         index1: index,
         date: dateInfo,
         status: newData[index].status,
+        name: dateName,
       },
     });
   };
@@ -128,7 +128,6 @@ const ViewListPage = () => {
     setData(sortedItems);
   };
   const handleAdd = () => {
-    console.log("Is here? ", dateInfo);
     nav("/NewListPage", {
       state: {
         date: dateInfo,

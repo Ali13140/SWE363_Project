@@ -53,7 +53,6 @@ const NewListPage = () => {
       const today = new Date();
       today.setHours(0, 0, 0, 0); // Set the time to 00:00:00.000
       let status;
-      console.log(stat);
       if (stat == "Done") status = "Done";
       else status = itemDate < today ? "Due" : "Other";
       const newItem = {
@@ -62,7 +61,6 @@ const NewListPage = () => {
         dateTime: dateRef.current.value,
         status: status, // Or whatever default status you want
       };
-      console.log("Here is the new data", newItem);
       // Navigate to the ViewListPage and pass the new item
       nav("/ViewListPage", {
         state: { data: newItem, index1: index, date: date1, name: dateName },

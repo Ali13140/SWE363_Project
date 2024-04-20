@@ -8,4 +8,7 @@
     color: green; /* Change color to green for valid requirements */
     list-style-type: disc;
   }
- 
+  .form-control {
+    border: 1px solid black;
+  }
+  

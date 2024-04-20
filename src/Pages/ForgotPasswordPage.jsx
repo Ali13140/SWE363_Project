@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import TitleDiv from "../Components/TitleDiv";
 import LoginForm from "../Components/LoginForm";
 import "../CSS_Files/SignIn.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const ForgotPasswordPage = () => {
   return (
@@ -39,6 +40,9 @@ const ForgotPasswordPage = () => {
               </button>
             </div>
           </form>
+          <div className="mt-3">
+            have an account? <Link to={"/SignIn"}>Sign In</Link>
+          </div>
         </div>
       </div>
     </div>

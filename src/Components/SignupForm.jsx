@@ -1,6 +1,6 @@
 // SignInForm.tsx
 import React from "react";
-import "../CSS_Files/form.css";
+import "../CSS_Files/Form.css";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -67,7 +67,7 @@ const SignupForm = () => {
 
   return (
     <div className="container">
-      <h1>Login</h1>
+      <h1>Sign Up</h1>
       <form className="mt-4" onSubmit={handleSubmit}>
         <div className="row mb-3">
           <div className="col">

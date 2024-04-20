@@ -1,11 +1,12 @@
 /* TaskDoneComponent.css */
 .task-done-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 80vh;
     width: 20vw;
-    background-color: skyblue;
+    background-color: #96aafe;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 40px;
@@ -13,6 +14,12 @@
   
   .task-done-container h1 {
     font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+  }
+  .task-done-container h2 {
+    font-size: 1rem;
     font-weight: bold;
     color: white;
     text-align: center;
