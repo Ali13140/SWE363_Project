@@ -4,6 +4,7 @@ import NavBar from "../Components/NavBar";
 import "../CSS_Files/ViewListPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import addIcon from "../assets/plus-circle.svg";
+import axios from "axios";
 
 const ViewListPage = () => {
   const location = useLocation();
@@ -50,6 +51,17 @@ const ViewListPage = () => {
           // Add more items as needed
         ];
   });
+  useEffect(() => {
+    // Replace 'johndoe' with the actual username
+    axios
+      .get("http://localhost:5000/users/johndoe")
+      .then((response) => {
+        setData(response.data.tasks);
+      })
+      .catch((error) => {
+        console.error("Error fetching user: ", error);
+      });
+  }, []);
 
   // Save data to localStorage whenever it changes
   useEffect(() => {
