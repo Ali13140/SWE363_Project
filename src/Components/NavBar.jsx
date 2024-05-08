@@ -51,6 +51,7 @@ const NavBar = () => {
             isDarkTheme ? "dark-theme" : "light-theme"
           }`}
           to={"/HomePage"}
+          onClick={() => localStorage.removeItem("taskData")}
         >
           Home
         </Link>

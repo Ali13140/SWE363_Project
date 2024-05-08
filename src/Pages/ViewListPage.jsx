@@ -19,47 +19,17 @@ const ViewListPage = () => {
 
   const nav = useNavigate();
   // Simulate data from a database
-  const [data, setData] = useState(() => {
-    const savedData = localStorage.getItem("myData"); // This acts as a local DataBase until we implement the DB in the backend
-    return savedData
-      ? JSON.parse(savedData)
-      : [
-          {
-            title: "Item 1",
-            details: "Details 1",
-            dateTime: "10/10/2024 1:41PM",
-            status: "Done",
-          },
-          {
-            title: "Item 2",
-            details: "Details 2",
-            dateTime: "10/1/2024 3:41PM",
-            status: "Due",
-          },
-          {
-            title: "item 3",
-            details: "Details 3",
-            dateTime: "10/10/2024 5:41PM",
-            status: "Other",
-          },
-          {
-            title: "item 3",
-            details: "Details 3",
-            dateTime: "10/10/2024 4:41PM",
-            status: "Other",
-          },
-          // Add more items as needed
-        ];
-  });
+  const [data, setData] = useState([]);
+
+  // Fetch tasks from the server when the component mounts
   useEffect(() => {
-    // Replace 'johndoe' with the actual username
     axios
-      .get("http://localhost:5000/users/johndoe")
+      .get("http://localhost:5000/users/johndoe") // Replace with the actual URL and username
       .then((response) => {
         setData(response.data.tasks);
       })
       .catch((error) => {
-        console.error("Error fetching user: ", error);
+        console.error("Error fetching tasks: ", error);
       });
   }, []);
 
@@ -92,53 +62,83 @@ const ViewListPage = () => {
     );
   };
 
-  const handleDone = (index) => {
-    const newData = [...data];
-    const itemDate = new Date(newData[index].dateTime);
+  const handleDone = (taskId) => {
+    // Find the task in your local state
+    const taskIndex = data.findIndex((task) => task._id === taskId);
+    const task = data[taskIndex];
+
+    // Determine the new status
+    const itemDate = new Date(task.dateTime);
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Set the time to 00:00:00.000
-    let status;
-    status = itemDate < today ? "Due" : "Other";
+    let status = itemDate < today ? "Due" : "Other";
+    if (task.status != "Done") status = "Done";
 
-    if (newData[index].status == "Done") newData[index].status = status;
-    else newData[index].status = "Done";
+    task.status = status;
+    console.log(task);
 
-    setData(newData);
+    // Update the task on the server
+    axios
+      .put(`http://localhost:5000/users/johndoe/tasks/${taskId}`, task) // Replace with the actual URL, username, and task ID
+      .then((response) => {
+        // Update the task in your local state
+        const updatedTasks = [...data];
+        updatedTasks[taskIndex] = response.data;
+        setData(updatedTasks);
+        console.log(taskId);
+      })
+      .catch((error) => {
+        console.error("Error response: ", error.response);
+      });
   };
 
-  const handleRemove = (index) => {
-    const newData = data.filter((item, i) => i !== index);
-
+  const handleRemove = (taskId) => {
+    // Remove the task from the local state
+    console.log("ID: " + taskId);
+    const newData = data.filter((item) => item._id !== taskId);
     setData(newData);
     localStorage.setItem("myData", JSON.stringify(newData));
+
+    // Send a DELETE request to the server to remove the task from the database
+    axios
+      .delete(`http://localhost:5000/users/johndoe/tasks/${taskId}`)
+      .then((response) => {
+        console.log("Task deleted successfully: ", response.data);
+      })
+      .catch((error) => {
+        console.error("Error deleting task: ", error);
+      });
   };
 
-  const handleEdit = (index) => {
-    const newData = [...data];
-    // Navigate to the NewListPage and pass the object data
+  const handleEdit = (taskId) => {
+    // Navigate to the NewListPage and pass the taskId
+    console.log("HEre" + taskId);
     nav("/NewListPage", {
       state: {
-        data: newData[index],
-        index1: index,
-        date: dateInfo,
-        status: newData[index].status,
+        taskId: taskId,
         name: dateName,
       },
     });
   };
 
   const handleUpdateItem = (updatedItem, index) => {
-    // Get the current items from the local storage
-    const savedItems = JSON.parse(localStorage.getItem("myData")) || [];
-
-    // Replace the item at the given index with the updated item
-    savedItems[index] = updatedItem;
-    const sortedItems = sortItems(savedItems);
-
-    // Save the updated items back to the local storage
-    localStorage.setItem("myData", JSON.stringify(sortedItems));
-    setData(sortedItems);
+    // Update the task on the server
+    axios;
+    axios
+      .put(
+        `http://localhost:5000/users/johndoe/tasks/${updatedItem._id}`,
+        updatedItem
+      )
+      .then((response) => {
+        const updatedTasks = [...data];
+        updatedTasks[index] = response.data;
+        setData(updatedTasks);
+      })
+      .catch((error) => {
+        console.error("Error updating task: ", error);
+      });
   };
+
   const handleAdd = () => {
     nav("/NewListPage", {
       state: {
@@ -209,7 +209,10 @@ const ViewListPage = () => {
                   }
                 })
                 .map((item, index) => (
-                  <li key={index} className={`list-group-item ${item.status}`}>
+                  <li
+                    key={item._id}
+                    className={`list-group-item ${item.status}`}
+                  >
                     {item.title}
                     <div className="btn-group">
                       <button
@@ -223,7 +226,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleDone(item.originalIndex)}
+                            onClick={() => handleDone(item._id)}
                           >
                             Done
                           </a>
@@ -232,7 +235,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleEdit(item.originalIndex)}
+                            onClick={() => handleEdit(item._id)}
                           >
                             Edit
                           </a>
@@ -246,7 +249,7 @@ const ViewListPage = () => {
                             className="dropdown-item"
                             href="#"
                             style={{ color: "red" }}
-                            onClick={() => handleRemove(item.originalIndex)}
+                            onClick={() => handleRemove(item._id)}
                           >
                             Remove
                           </a>
@@ -302,8 +305,11 @@ const ViewListPage = () => {
                   }
                 })
                 .map((item, index) => (
-                  <li key={index} className={`list-group-item ${item.status}`}>
-                    {item.details}
+                  <li
+                    key={item._id}
+                    className={`list-group-item ${item.status}`}
+                  >
+                    {item.title}
                     <div className="btn-group">
                       <button
                         type="button"
@@ -316,7 +322,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleDone(item.originalIndex)}
+                            onClick={() => handleDone(item._id)}
                           >
                             Done
                           </a>
@@ -325,7 +331,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleEdit(item.originalIndex)}
+                            onClick={() => handleEdit(item._id)}
                           >
                             Edit
                           </a>
@@ -339,7 +345,7 @@ const ViewListPage = () => {
                             className="dropdown-item"
                             href="#"
                             style={{ color: "red" }}
-                            onClick={() => handleRemove(item.originalIndex)}
+                            onClick={() => handleRemove(item._id)}
                           >
                             Remove
                           </a>
@@ -395,8 +401,11 @@ const ViewListPage = () => {
                   }
                 })
                 .map((item, index) => (
-                  <li key={index} className={`list-group-item ${item.status}`}>
-                    {item.dateTime}
+                  <li
+                    key={item._id}
+                    className={`list-group-item ${item.status}`}
+                  >
+                    {item.title}
                     <div className="btn-group">
                       <button
                         type="button"
@@ -409,7 +418,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleDone(item.originalIndex)}
+                            onClick={() => handleDone(item._id)}
                           >
                             Done
                           </a>
@@ -418,7 +427,7 @@ const ViewListPage = () => {
                           <a
                             className="dropdown-item"
                             href="#"
-                            onClick={() => handleEdit(item.originalIndex)}
+                            onClick={() => handleEdit(item._id)}
                           >
                             Edit
                           </a>
@@ -432,7 +441,7 @@ const ViewListPage = () => {
                             className="dropdown-item"
                             href="#"
                             style={{ color: "red" }}
-                            onClick={() => handleRemove(item.originalIndex)}
+                            onClick={() => handleRemove(item._id)}
                           >
                             Remove
                           </a>

@@ -33,6 +33,11 @@ const sampleUsers = [
           details: 'Details for Task 1',
           dateTime: new Date(),
           status: 'Incomplete'
+        },{
+        title: 'Task 2',
+        details: 'Details for Task 1',
+        dateTime: new Date(),
+        status: 'Incomplete'
         }
       ]
     },

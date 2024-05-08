@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import NavBar from "../Components/NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import DateTimePicker from "../Components/TimePicker";
+import axios from "axios";
 
 const NewListPage = () => {
   const location = useLocation();
@@ -12,8 +13,33 @@ const NewListPage = () => {
   const [date, setDate] = useState("");
   const [buttonText, setButtonText] = useState("Create");
   const buttonTextRef = useRef(buttonText);
+  const [id, setId] = useState(location.state ? location.state.taskId : null); // Use useState instead of useRef
 
-  const data = location.state ? location.state.data : null;
+  const [data, setData] = useState();
+  useEffect(() => {
+    if (location.state && location.state.taskId) {
+      const url =
+        "http://localhost:5000/users/johndoe/tasks/" + location.state.taskId;
+      axios
+        .get(url)
+        .then((response) => {
+          setData(response.data);
+          // Store the data in local storage
+          localStorage.setItem("taskData", JSON.stringify(response.data));
+        })
+        .catch((error) => {
+          console.error("Error fetching tasks: ", error);
+        });
+    } else {
+      // If there's no taskId in the location state, try to load the data from local storage
+      const storedData = localStorage.getItem("taskData");
+
+      if (storedData) {
+        setData(JSON.parse(storedData));
+      }
+    }
+  }, []);
+
   const [date1, setdate1] = useState(
     location.state ? location.state.date : null
   ); // Use useState instead of useRef
@@ -22,10 +48,6 @@ const NewListPage = () => {
   ); // Use useState instead of useRef
   const [dateName, setdateName] = useState(
     location.state ? location.state.name : null
-  ); // Use useState instead of useRef
-
-  const [index, setIndex] = useState(
-    location.state ? location.state.index1 : null
   ); // Use useState instead of useRef
 
   useEffect(() => {
@@ -45,6 +67,7 @@ const NewListPage = () => {
 
   const handleCreateItem = (event) => {
     event.preventDefault(); // Prevent the form from refreshing the page
+
     if (!dateRef.current.value) {
       alert("Date is required");
       return;
@@ -53,6 +76,7 @@ const NewListPage = () => {
       const today = new Date();
       today.setHours(0, 0, 0, 0); // Set the time to 00:00:00.000
       let status;
+      let stat = data ? (data.status ? data.status : "") : "";
       if (stat == "Done") status = "Done";
       else status = itemDate < today ? "Due" : "Other";
       const newItem = {
@@ -61,10 +85,34 @@ const NewListPage = () => {
         dateTime: dateRef.current.value,
         status: status, // Or whatever default status you want
       };
-      // Navigate to the ViewListPage and pass the new item
-      nav("/ViewListPage", {
-        state: { data: newItem, index1: index, date: date1, name: dateName },
-      });
+
+      if (id) {
+        // If id is set, we're editing an existing task
+        console.log("ID: " + newItem.status);
+        if (stat === "Done") status = "Done";
+        else status = itemDate < today ? "Due" : "Other";
+        newItem._id = id;
+        axios
+          .put(`http://localhost:5000/users/johndoe/tasks/${id}`, newItem)
+          .then((response) => {
+            // Handle successful update
+            nav("/ViewListPage");
+          })
+          .catch((error) => {
+            console.error("Error updating task: ", error);
+          });
+      } else {
+        // If id is not set, we're creating a new task
+        axios
+          .post(`http://localhost:5000/users/johndoe/tasks`, newItem)
+          .then((response) => {
+            // Handle successful creation
+            nav("/ViewListPage");
+          })
+          .catch((error) => {
+            console.error("Error creating task: ", error);
+          });
+      }
     }
   };
 

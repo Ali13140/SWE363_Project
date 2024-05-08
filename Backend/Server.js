@@ -2,13 +2,13 @@ const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/users"); // replace with path to your User model
 
-const cors = require('cors');
+const cors = require("cors");
 
 const app = express();
 
 // Enable CORS
 app.use(cors());
-
+app.use(express.json())
 
 // Connect to MongoDB
 mongoose
@@ -43,6 +43,64 @@ app.get("/users/:username", async (req, res) => {
     if (!user) {
       return res.status(404).send();
     }
+    res.send(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+// Define a route to delete a task from a specific user
+app.get("/users/:username/tasks/:taskId", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) {
+      return res.status(404).send();
+    }
+    const task = user.tasks.id(req.params.taskId);
+    res.send(task);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.delete("/users/:username/tasks/:taskId", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) {
+      return res.status(404).send();
+    }
+    user.tasks.pull({ _id: req.params.taskId }); // Use pull to remove the task
+    await user.save();
+    res.send(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// Define a route to add a task to a specific user
+app.post("/users/:username/tasks", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) {
+      return res.status(404).send();
+    }
+    user.tasks.push(req.body);
+    await user.save();
+    res.send(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.put("/users/:username/tasks/:taskId", async (req, res) => {
+  try {
+    const user = await User.findOne({ username: req.params.username });
+    if (!user) {
+      return res.status(404).send();
+    }
+    const task = user.tasks.id(req.params.taskId);
+    console.log(req.body)
+    task.set(req.body);
+    await user.save();
     res.send(user);
   } catch (error) {
     res.status(500).send(error);
