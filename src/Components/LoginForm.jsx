@@ -2,19 +2,31 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignInForm = () => {
   const nav = useNavigate();
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
 
-    //Check if email and password are valid in the DB
-    //If not, insert a div saying something is wrong under the password
-
-    nav("/HomePage");
+    try {
+      // Send a post request to your server with the email and password
+      await axios.post("http://localhost:5000/login", { email, password });
+      // If the request is successful, navigate to the home page
+      nav("/HomePage");
+    } catch (error) {
+      // If the request fails, show an error message
+      console.log(error);
+      const errorDiv = document.createElement("div");
+      errorDiv.textContent = "Invalid email or password";
+      form.password.parentNode.insertBefore(
+        errorDiv,
+        form.password.nextSibling
+      );
+    }
   };
   return (
     <div className="container">

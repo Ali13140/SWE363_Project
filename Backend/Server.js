@@ -106,7 +106,27 @@ app.put("/users/:username/tasks/:taskId", async (req, res) => {
     res.status(500).send(error);
   }
 });
+app.post('/login', async (req, res) => {
+  try {
+    // Find the user with the provided email
+    const user = await User.findOne({ email: req.body.email });
+    console.log(user)
+    if (!user) {
+      return res.status(400).send('Invalid email or password');
+    }
 
+    // Check if the provided password matches the password in the database
+    if (req.body.password !== user.password) {
+      return res.status(400).send('Invalid email or password');
+    }
+
+    // If the email and password are valid, send a success status
+    res.send('Logged in successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred');
+  }
+});
 // Define a simple route
 app.get("/", (req, res) => {
   res.send("Hello, World!");
