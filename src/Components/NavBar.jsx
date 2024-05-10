@@ -42,7 +42,14 @@ const NavBar = () => {
       style={{ height: "60px", backgroundColor: "#28cdba" }}
     >
       <div className="container-fluid d-flex justify-content-between">
-        <button type="button" className="btn " onClick={() => navigate(-1)}>
+        <button
+          type="button"
+          className="btn "
+          onClick={() => {
+            localStorage.removeItem("taskData");
+            navigate(-1);
+          }}
+        >
           <img src={backIcon} alt="Back Icon" />
         </button>
 
@@ -70,6 +77,7 @@ const NavBar = () => {
           <Link
             className={`nav-link ${isDarkTheme ? "dark-theme" : "light-theme"}`}
             to={"/Profile"}
+            onClick={() => localStorage.removeItem("taskData")}
           >
             <img
               src={profilePic}

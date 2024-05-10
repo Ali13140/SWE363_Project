@@ -85,7 +85,7 @@ const NewListPage = () => {
         dateTime: dateRef.current.value,
         status: status, // Or whatever default status you want
       };
-
+      localStorage.removeItem("taskData")
       if (id) {
         // If id is set, we're editing an existing task
         console.log("ID: " + newItem.status);
