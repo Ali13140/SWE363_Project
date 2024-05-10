@@ -62,36 +62,36 @@ const ViewListPage = () => {
     );
   };
 
-  const handleDone = (taskId) => {
+  const handleDone = async (taskId) => {
     // Find the task in your local state
     const taskIndex = data.findIndex((task) => task._id === taskId);
     const task = data[taskIndex];
-
+  
     // Determine the new status
     const itemDate = new Date(task.dateTime);
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Set the time to 00:00:00.000
     let status = itemDate < today ? "Due" : "Other";
     if (task.status != "Done") status = "Done";
-
-    task.status = status;
-    console.log(task);
-
+  
+    // Optimistically update the task in your local state
+    const updatedTasks = [...data];
+    updatedTasks[taskIndex] = { ...task, status };
+    setData(updatedTasks);
+  
     // Update the task on the server
-    axios
-      .put(`http://localhost:5000/users/johndoe/tasks/${taskId}`, task) // Replace with the actual URL, username, and task ID
-      .then((response) => {
-        // Update the task in your local state
-        const updatedTasks = [...data];
-        updatedTasks[taskIndex] = response.data;
-        setData(updatedTasks);
-        console.log(taskId);
-      })
-      .catch((error) => {
-        console.error("Error response: ", error.response);
-      });
+    try {
+      const response = await axios.put(`http://localhost:5000/users/johndoe/tasks/${taskId}`, updatedTasks[taskIndex]);
+      // Update the task in your local state with the server's response
+    } catch (error) {
+      console.error("Error response: ", error.response);
+      // Revert the changes in the local state in case of an error
+      updatedTasks[taskIndex] = task;
+      setData(updatedTasks);
+    }
   };
-
+  
+  
   const handleRemove = (taskId) => {
     // Remove the task from the local state
     console.log("ID: " + taskId);
@@ -142,7 +142,6 @@ const ViewListPage = () => {
   const handleAdd = () => {
     nav("/NewListPage", {
       state: {
-        date: dateInfo,
         name: dateName,
       },
     });
@@ -309,7 +308,7 @@ const ViewListPage = () => {
                     key={item._id}
                     className={`list-group-item ${item.status}`}
                   >
-                    {item.title}
+                    {item.details}
                     <div className="btn-group">
                       <button
                         type="button"
@@ -405,7 +404,7 @@ const ViewListPage = () => {
                     key={item._id}
                     className={`list-group-item ${item.status}`}
                   >
-                    {item.title}
+                    {item.dateTime}
                     <div className="btn-group">
                       <button
                         type="button"

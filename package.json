@@ -30,5 +30,9 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "vite": "^5.2.0"
-  }
+  },
+  "description": "Welcome to TaskDone, your personal academic task manager. In the fast-paced world of academia, juggling assignments, coursework, and extracurricular activities can be overwhelming. TaskDone is here to help. Designed with students in mind, our tool simplifies task management, fosters effective teamwork, and empowers students to navigate their academic journey with confidence.",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
