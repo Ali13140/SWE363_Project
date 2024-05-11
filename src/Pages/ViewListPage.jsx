@@ -5,6 +5,7 @@ import "../CSS_Files/ViewListPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import addIcon from "../assets/plus-circle.svg";
 import axios from "axios";
+import { format } from 'date-fns';
 
 const ViewListPage = () => {
   const location = useLocation();
@@ -17,28 +18,26 @@ const ViewListPage = () => {
 
   const [currentDateInfo, setCurrentDateInfo] = useState(null);
 
+  // Get the date from the database
+
   const nav = useNavigate();
   // Simulate data from a database
   const [data, setData] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
-  const userName=user.username;
+  const userName = user.username;
 
   // Fetch tasks from the server when the component mounts
   useEffect(() => {
     axios
       .get(`http://localhost:5000/users/${userName}`) // Replace with the actual URL and username
       .then((response) => {
-        setData(response.data.tasks);
+        const sortedData = sortItems(response.data.tasks);
+        setData(sortedData);
       })
       .catch((error) => {
         console.error("Error fetching tasks: ", error);
       });
   }, []);
-
-  // Save data to localStorage whenever it changes
-  useEffect(() => {
-    localStorage.setItem("myData", JSON.stringify(data));
-  }, [data]);
 
   useEffect(() => {
     if (location.state) {
@@ -46,18 +45,6 @@ const ViewListPage = () => {
     }
   }, [location]);
 
-  useEffect(() => {
-    if (location.state && location.state.data) {
-      if (location.state.index1) {
-        handleUpdateItem(location.state.data, location.state.index1);
-      } else {
-        // If index doesn't exist, add a new item
-        const newData = [...data, location.state.data];
-        const sortedData = sortItems(newData);
-        setData(sortedData);
-      }
-    }
-  }, [location]);
   const sortItems = (items) => {
     return [...items].sort(
       (a, b) => new Date(a.dateTime) - new Date(b.dateTime)
@@ -68,22 +55,26 @@ const ViewListPage = () => {
     // Find the task in your local state
     const taskIndex = data.findIndex((task) => task._id === taskId);
     const task = data[taskIndex];
-  
+
     // Determine the new status
     const itemDate = new Date(task.dateTime);
+    console.log("Date: " + itemDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Set the time to 00:00:00.000
     let status = itemDate < today ? "Due" : "Other";
     if (task.status != "Done") status = "Done";
-  
+
     // Optimistically update the task in your local state
     const updatedTasks = [...data];
     updatedTasks[taskIndex] = { ...task, status };
     setData(updatedTasks);
-  
+
     // Update the task on the server
     try {
-      const response = await axios.put(`http://localhost:5000/users/${userName}/tasks/${taskId}`, updatedTasks[taskIndex]);
+      const response = await axios.put(
+        `http://localhost:5000/users/${userName}/tasks/${taskId}`,
+        updatedTasks[taskIndex]
+      );
       // Update the task in your local state with the server's response
     } catch (error) {
       console.error("Error response: ", error.response);
@@ -92,8 +83,7 @@ const ViewListPage = () => {
       setData(updatedTasks);
     }
   };
-  
-  
+
   const handleRemove = (taskId) => {
     // Remove the task from the local state
     console.log("ID: " + taskId);
@@ -121,24 +111,6 @@ const ViewListPage = () => {
         name: dateName,
       },
     });
-  };
-
-  const handleUpdateItem = (updatedItem, index) => {
-    // Update the task on the server
-    axios;
-    axios
-      .put(
-        `http://localhost:5000/users/${userName}/tasks/${updatedItem._id}`,
-        updatedItem
-      )
-      .then((response) => {
-        const updatedTasks = [...data];
-        updatedTasks[index] = response.data;
-        setData(updatedTasks);
-      })
-      .catch((error) => {
-        console.error("Error updating task: ", error);
-      });
   };
 
   const handleAdd = () => {
@@ -406,7 +378,7 @@ const ViewListPage = () => {
                     key={item._id}
                     className={`list-group-item ${item.status}`}
                   >
-                    {item.dateTime}
+                    {format(new Date(item.dateTime), "yyyy-MM-dd h:mm a")}
                     <div className="btn-group">
                       <button
                         type="button"
