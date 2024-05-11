@@ -50,7 +50,7 @@ const NewListPage = () => {
     location.state ? location.state.status : null
   ); // Use useState instead of useRef
   const [dateName, setdateName] = useState(
-    location.state ? location.state.name : null
+    location.state ? location.state.name : ""
   ); // Use useState instead of useRef
 
   useEffect(() => {
@@ -99,7 +99,11 @@ const NewListPage = () => {
           .put(`http://localhost:5000/users/${userName}/tasks/${id}`, newItem)
           .then((response) => {
             // Handle successful update
-            nav("/ViewListPage");
+            nav("/ViewListPage",{state: {
+              name: dateName,
+              date:date1
+
+            }});
           })
           .catch((error) => {
             console.error("Error updating task: ", error);
@@ -110,7 +114,11 @@ const NewListPage = () => {
           .post(`http://localhost:5000/users/${userName}/tasks`, newItem)
           .then((response) => {
             // Handle successful creation
-            nav("/ViewListPage");
+            nav("/ViewListPage",{state: {
+              name: dateName,
+              date:date1
+
+            }});
           })
           .catch((error) => {
             console.error("Error creating task: ", error);

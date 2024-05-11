@@ -13,7 +13,7 @@ const ViewListPage = () => {
     location.state ? location.state.date : null
   ); // Use useState instead of useRef
   const [dateName, setdateName] = useState(
-    location.state ? location.state.name : null
+    location.state ? location.state.name : ""
   ); // Use useState instead of useRef
 
   const [currentDateInfo, setCurrentDateInfo] = useState(null);
@@ -109,6 +109,8 @@ const ViewListPage = () => {
       state: {
         taskId: taskId,
         name: dateName,
+        date:currentDateInfo
+
       },
     });
   };
@@ -117,6 +119,7 @@ const ViewListPage = () => {
     nav("/NewListPage", {
       state: {
         name: dateName,
+        date:currentDateInfo
       },
     });
   };
