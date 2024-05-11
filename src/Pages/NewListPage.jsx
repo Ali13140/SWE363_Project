@@ -15,11 +15,14 @@ const NewListPage = () => {
   const buttonTextRef = useRef(buttonText);
   const [id, setId] = useState(location.state ? location.state.taskId : null); // Use useState instead of useRef
 
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userName=user.username;
+
   const [data, setData] = useState();
   useEffect(() => {
     if (location.state && location.state.taskId) {
       const url =
-        "http://localhost:5000/users/johndoe/tasks/" + location.state.taskId;
+        `http://localhost:5000/users/${userName}/tasks/` + location.state.taskId;
       axios
         .get(url)
         .then((response) => {
@@ -93,7 +96,7 @@ const NewListPage = () => {
         else status = itemDate < today ? "Due" : "Other";
         newItem._id = id;
         axios
-          .put(`http://localhost:5000/users/johndoe/tasks/${id}`, newItem)
+          .put(`http://localhost:5000/users/${userName}/tasks/${id}`, newItem)
           .then((response) => {
             // Handle successful update
             nav("/ViewListPage");
@@ -104,7 +107,7 @@ const NewListPage = () => {
       } else {
         // If id is not set, we're creating a new task
         axios
-          .post(`http://localhost:5000/users/johndoe/tasks`, newItem)
+          .post(`http://localhost:5000/users/${userName}/tasks`, newItem)
           .then((response) => {
             // Handle successful creation
             nav("/ViewListPage");

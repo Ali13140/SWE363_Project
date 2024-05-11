@@ -14,8 +14,10 @@ const SignInForm = () => {
 
     try {
       // Send a post request to your server with the email and password
-      await axios.post("http://localhost:5000/login", { email, password });
+      const user=await axios.post("http://localhost:5000/login", { email, password });
       // If the request is successful, navigate to the home page
+      console.log(user.data)
+      localStorage.setItem("user",JSON.stringify(user.data))
       nav("/HomePage");
     } catch (error) {
       // If the request fails, show an error message

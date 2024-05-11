@@ -50,7 +50,6 @@ const SignupForm = () => {
       // Navigate to password verification page
       localStorage.setItem("code",verificationCode)
       localStorage.setItem("user", JSON.stringify(user));
-      console.log("User 1 : ",user)
 
       navigate("/VerifyEmail");
     } else {

@@ -20,11 +20,13 @@ const ViewListPage = () => {
   const nav = useNavigate();
   // Simulate data from a database
   const [data, setData] = useState([]);
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userName=user.username;
 
   // Fetch tasks from the server when the component mounts
   useEffect(() => {
     axios
-      .get("http://localhost:5000/users/johndoe") // Replace with the actual URL and username
+      .get(`http://localhost:5000/users/${userName}`) // Replace with the actual URL and username
       .then((response) => {
         setData(response.data.tasks);
       })
@@ -81,7 +83,7 @@ const ViewListPage = () => {
   
     // Update the task on the server
     try {
-      const response = await axios.put(`http://localhost:5000/users/johndoe/tasks/${taskId}`, updatedTasks[taskIndex]);
+      const response = await axios.put(`http://localhost:5000/users/${userName}/tasks/${taskId}`, updatedTasks[taskIndex]);
       // Update the task in your local state with the server's response
     } catch (error) {
       console.error("Error response: ", error.response);
@@ -101,7 +103,7 @@ const ViewListPage = () => {
 
     // Send a DELETE request to the server to remove the task from the database
     axios
-      .delete(`http://localhost:5000/users/johndoe/tasks/${taskId}`)
+      .delete(`http://localhost:5000/users/${userName}/tasks/${taskId}`)
       .then((response) => {
         console.log("Task deleted successfully: ", response.data);
       })
@@ -126,7 +128,7 @@ const ViewListPage = () => {
     axios;
     axios
       .put(
-        `http://localhost:5000/users/johndoe/tasks/${updatedItem._id}`,
+        `http://localhost:5000/users/${userName}/tasks/${updatedItem._id}`,
         updatedItem
       )
       .then((response) => {

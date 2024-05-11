@@ -197,7 +197,7 @@ app.post('/login', async (req, res) => {
     }
 
     // If the email and password are valid, send a success status
-    res.send('Logged in successfully');
+    res.send(user);
   } catch (error) {
     console.error(error);
     res.status(500).send('An error occurred');

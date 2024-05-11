@@ -21,8 +21,9 @@ const ForgotPasswordPage = () => {
     if (enteredCode === localStorage.getItem("code")) {
       // Save the user in the database
       await axios.post('http://localhost:5000/users', user);
-  console.log("User 2 "+user)
       // Navigate to home page
+      localStorage.removeItem("code")
+
       navigate("/HomePage");
     } else {
       alert('Verification code is not correct');

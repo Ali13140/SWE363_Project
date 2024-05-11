@@ -9,6 +9,11 @@ const ProfilePage = () => {
   const [profilePic, setProfilePic] = useState(
     localStorage.getItem("profilePic") || "src/profile.jpg"
   );
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userEmail=user.email;
+  const userName=user.username;
+
+
 
   const handleUpload = (event) => {
     const file = event.target.files[0];
@@ -66,14 +71,14 @@ const ProfilePage = () => {
             </div>
           </label>
         </div>
-        <h4 className="mt-3">John Doe</h4>
+        <h4 className="mt-3">{user.firstName}</h4>
         <div className="form-group mx-auto" style={{ maxWidth: "30vw" }}>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
             className="form-control"
-            value="john.doe@example.com"
+            value={userEmail}
             readOnly
             style={{ backgroundColor: "#28cdba", textAlign: "center" }}
           />
@@ -84,7 +89,7 @@ const ProfilePage = () => {
             type="text"
             id="username"
             className="form-control"
-            value="johndoe123"
+            value={userName}
             readOnly
             style={{ backgroundColor: "#28cdba", textAlign: "center" }}
           />
