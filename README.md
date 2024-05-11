@@ -10,6 +10,6 @@ TaskDone is built for students across all academic levels. Whether you're in hig
 
 ## Tech Stack
 
-Our front-end is built with React and Bootstrap, closely following the design we created in Figma. We've implemented all possible front-end functionalities and used the LocalStorage API as a temporary database solution.
+Our front-end is built with React and Bootstrap, closely following the design we created in Figma. We've implemented all possible front-end functionalities.
 
-For our back-end (currently under development), we plan to use MongoDB for our database. This will store user information for validating sign-ups and sign-ins. We also plan to implement a two-way verification and password recovery service.
+Our back-end is built with Node.js and Express.js. We use MongoDB for our database, which stores user information for validating sign-ups and sign-ins. We have also implemented a two-way verification and password recovery service.
