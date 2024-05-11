@@ -14,20 +14,27 @@ const SignInForm = () => {
 
     try {
       // Send a post request to your server with the email and password
-      const user=await axios.post("http://localhost:5000/login", { email, password });
+      const user = await axios.post("http://localhost:5000/login", {
+        email,
+        password,
+      });
       // If the request is successful, navigate to the home page
-      console.log(user.data)
-      localStorage.setItem("user",JSON.stringify(user.data))
+      localStorage.setItem("user", JSON.stringify(user.data));
       nav("/HomePage");
     } catch (error) {
       // If the request fails, show an error message
-      console.log(error);
       const errorDiv = document.createElement("div");
       errorDiv.textContent = "Invalid email or password";
+      errorDiv.style.color = "red"; // Make the text red
       form.password.parentNode.insertBefore(
         errorDiv,
         form.password.nextSibling
       );
+
+      // Remove the error message after 3 seconds
+      setTimeout(() => {
+        errorDiv.remove();
+      }, 1000);
     }
   };
   return (

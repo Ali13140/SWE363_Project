@@ -34,7 +34,6 @@ const SignupForm = () => {
     if (isPasswordValid(passwordInput)) {
       // Check if user with the same email already exists
       const existingUser = await axios.get(`http://localhost:5000/users/check/${emailInput.value}`);
-      console.log("do we get here?")
 
       if (existingUser.data) {
         alert('User with the same email already exists');

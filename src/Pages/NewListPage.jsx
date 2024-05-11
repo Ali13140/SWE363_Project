@@ -91,7 +91,6 @@ const NewListPage = () => {
       localStorage.removeItem("taskData")
       if (id) {
         // If id is set, we're editing an existing task
-        console.log("ID: " + newItem.status);
         if (stat === "Done") status = "Done";
         else status = itemDate < today ? "Due" : "Other";
         newItem._id = id;

@@ -58,7 +58,6 @@ const ViewListPage = () => {
 
     // Determine the new status
     const itemDate = new Date(task.dateTime);
-    console.log("Date: " + itemDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Set the time to 00:00:00.000
     let status = itemDate < today ? "Due" : "Other";
@@ -86,7 +85,6 @@ const ViewListPage = () => {
 
   const handleRemove = (taskId) => {
     // Remove the task from the local state
-    console.log("ID: " + taskId);
     const newData = data.filter((item) => item._id !== taskId);
     setData(newData);
     localStorage.setItem("myData", JSON.stringify(newData));
@@ -104,7 +102,6 @@ const ViewListPage = () => {
 
   const handleEdit = (taskId) => {
     // Navigate to the NewListPage and pass the taskId
-    console.log("HEre" + taskId);
     nav("/NewListPage", {
       state: {
         taskId: taskId,
