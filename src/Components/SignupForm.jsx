@@ -1,15 +1,15 @@
 // SignInForm.tsx
 import React from "react";
 import "../CSS_Files/form.css";
+import axios from "axios";
 
 import { Link, useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
   const navigate = useNavigate();
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent form submission
-
+  
     // Check validity of fields
     const form = event.target;
     const firstNameInput = form.elements.firstName;
@@ -17,12 +17,12 @@ const SignupForm = () => {
     const userNameInput = form.elements.userName;
     const emailInput = form.elements.email;
     const passwordInput = form.elements.password.value; // Get the value of the input
-
+  
     const isPasswordValid = (password) => {
       // Regular expressions for uppercase letter and special character
       const uppercaseRegex = /[A-Z]/;
       const specialCharRegex = /[!@#$%^&*()_+={}\[\]:;<>,.?~]/;
-
+  
       // Check length, uppercase, and special character
       return (
         password.length >= 8 &&
@@ -30,12 +30,34 @@ const SignupForm = () => {
         specialCharRegex.test(password)
       );
     };
-
+  
     if (isPasswordValid(passwordInput)) {
-      navigate("/HomePage"); // Use the navigate function here
+      // Check if user with the same email already exists
+      const existingUser = await axios.get(`http://localhost:5000/users/check/${emailInput.value}`);
+      console.log("do we get here?")
+
+      if (existingUser.data) {
+        alert('User with the same email already exists');
+        return;
+      }
+  
+      // Generate a 6-digit verification code
+      const verificationCode = Math.floor(100000 + Math.random() * 900000);
+  
+      // Send verification email
+      await axios.post('http://localhost:5000/sendVerificationEmail', { email: emailInput.value, code: verificationCode });
+      let user= { firstName: firstNameInput.value, lastName: lastNameInput.value, username: userNameInput.value, email: emailInput.value, password: passwordInput }
+      // Navigate to password verification page
+      localStorage.setItem("code",verificationCode)
+      localStorage.setItem("user", JSON.stringify(user));
+      console.log("User 1 : ",user)
+
+      navigate("/VerifyEmail");
     } else {
+      alert('Password is not valid');
     }
   };
+  
   const handlePasswordChange = (event) => {
     const password = event.target.value;
 
@@ -98,14 +120,14 @@ const SignupForm = () => {
           </div>
         </div>
         <div className="mb-3">
-          <label htmlFor="username" className="form-label">
+          <label htmlFor="userName" className="form-label">
             Username
           </label>
           <input
             type="text"
             className="form-control"
-            id="username"
-            name="username"
+            id="userName"
+            name="userName"
             placeholder="User Name"
             style={{ width: "50%" }}
             required

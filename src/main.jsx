@@ -10,7 +10,7 @@ import MyListPage from "./Pages/MyListPage";
 import NewListPage from "./Pages/NewListPage";
 import ViewListPage from "./Pages/ViewListPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
-
+import VerfiyEmail from "./Pages/VerifyEmail"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/SignIn",
     element: <SignIn />,
+  },
+  {
+    path: "/VerifyEmail",
+    element: <VerfiyEmail />,
   },
   {
     path: "/SignUp",

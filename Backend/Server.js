@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const User = require("./models/users"); // replace with path to your User model
 
 const cors = require("cors");
+const nodemailer=require("nodemailer");
 
 const app = express();
 
@@ -61,6 +62,73 @@ app.get("/users/:username/tasks/:taskId", async (req, res) => {
     res.status(500).send(error);
   }
 });
+// GET route for checking if a user exists
+app.get('/users/check/:email', async (req, res) => {
+  try {
+    // Check if user with the same email already exists
+    const user = await User.findOne({ email: req.params.email });
+    console.log(req.params.email)
+
+    if (user) {
+      console.log(user)
+
+      return res.status(200).send(user);
+    } else {
+      return res.send();
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+app.post('/users', async (req, res) => {
+  try {
+    console.log(req.body); // Log the incoming user data
+    const user = new User(req.body); // Create a new user
+    await user.save(); // Save the user to the database
+    console.log(user); // Log the incoming user data
+
+    res.status(201).send(user); // Send the saved user back
+  } catch (error) {
+    res.status(400).send(error); // Send back any errors
+  }
+});
+
+
+// POST route for sending verification email
+app.post('/sendVerificationEmail', async (req, res) => {
+  try {
+    // Create a Nodemailer transporter
+    var transporter = nodemailer.createTransport({
+      host: "smtp-mail.outlook.com",
+      secureConnection: false,
+      port: 587,
+      auth: {
+        user: "taskDoneProject@outlook.com",
+        pass: "taskDoneSWE"
+      },
+      tls: {
+        ciphers:'SSLv3'
+      }
+    });
+    
+
+    // Send the email
+    await transporter.sendMail({
+      from: 'taskDoneProject@outlook.com', // sender address
+      to: req.body.email, // list of receivers
+      subject: "Email Verification", // Subject line
+      text: `Your verification code is ${req.body.code}`, // plain text body
+    });
+    console.log("Here?")
+
+    res.status(200).send('Verification email sent');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+});
+
+
 
 app.delete("/users/:username/tasks/:taskId", async (req, res) => {
   try {
