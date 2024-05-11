@@ -91,8 +91,8 @@ const ProfilePage = () => {
         </div>
       </div>
       <br />
-      <div class="d-flex justify-content-center align-items-center">
-        <button type="button" class="btn btn-danger" onClick={HandleLogOut}>
+      <div className="d-flex justify-content-center align-items-center">
+        <button type="button" className="btn btn-danger" onClick={HandleLogOut}>
           Log Out
         </button>
       </div>

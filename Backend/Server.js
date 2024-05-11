@@ -4,6 +4,9 @@ const User = require("./models/users"); // replace with path to your User model
 
 const cors = require("cors");
 const nodemailer=require("nodemailer");
+const bcrypt = require('bcrypt');
+const saltRounds = 10; // Define the number of salt rounds
+
 
 const app = express();
 
@@ -80,13 +83,18 @@ app.get('/users/check/:email', async (req, res) => {
     res.status(500).send(error);
   }
 });
+
 app.post('/users', async (req, res) => {
   try {
-    console.log(req.body); // Log the incoming user data
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
+    // Replace the plain text password with the hashed password
+    req.body.password = hashedPassword;
+
     const user = new User(req.body); // Create a new user
     await user.save(); // Save the user to the database
-    console.log(user); // Log the incoming user data
-
+    console.log("User: "+user)
     res.status(201).send(user); // Send the saved user back
   } catch (error) {
     res.status(400).send(error); // Send back any errors
@@ -178,13 +186,13 @@ app.post('/login', async (req, res) => {
   try {
     // Find the user with the provided email
     const user = await User.findOne({ email: req.body.email });
-    console.log(user)
     if (!user) {
       return res.status(400).send('Invalid email or password');
     }
 
     // Check if the provided password matches the password in the database
-    if (req.body.password !== user.password) {
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
+    if (!isMatch) {
       return res.status(400).send('Invalid email or password');
     }
 
@@ -195,6 +203,7 @@ app.post('/login', async (req, res) => {
     res.status(500).send('An error occurred');
   }
 });
+
 // Define a simple route
 app.get("/", (req, res) => {
   res.send("Hello, World!");
