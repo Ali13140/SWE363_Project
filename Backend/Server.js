@@ -72,10 +72,8 @@ app.get('/users/check/:email', async (req, res) => {
   try {
     // Check if user with the same email already exists
     const user = await User.findOne({ email: req.params.email });
-    console.log(req.params.email)
 
     if (user) {
-      console.log(user)
 
       return res.status(200).send(user);
     } else {
@@ -96,7 +94,6 @@ app.post('/users', async (req, res) => {
 
     const user = new User(req.body); // Create a new user
     await user.save(); // Save the user to the database
-    console.log("User: "+user)
     res.status(201).send(user); // Send the saved user back
   } catch (error) {
     res.status(400).send(error); // Send back any errors
@@ -129,11 +126,9 @@ app.post('/sendVerificationEmail', async (req, res) => {
       subject: "Email Verification", // Subject line
       text: `Your verification code is ${req.body.code}`, // plain text body
     });
-    console.log("Here?")
 
     res.status(200).send('Verification email sent');
   } catch (error) {
-    console.error(error);
     res.status(500).send(error);
   }
 });
@@ -176,7 +171,6 @@ app.put("/users/:username/tasks/:taskId", async (req, res) => {
       return res.status(404).send();
     }
     const task = user.tasks.id(req.params.taskId);
-    console.log(req.body)
     task.set(req.body);
     await user.save();
     res.send(user);
@@ -201,20 +195,23 @@ app.post('/login', async (req, res) => {
     // If the email and password are valid, send a success status
     res.send(user);
   } catch (error) {
-    console.error(error);
     res.status(500).send('An error occurred');
   }
 });
 
-app.post('/forgot-password', async (req, res) => {
+app.post('/users/forgot-password', async (req, res) => {
   // Generate a random token
+  console.error("Here?")
+
   const token = crypto.randomBytes(20).toString('hex');
 
   // Associate the token with the user in the database
   const user = await User.findOne({ email: req.body.email });
   user.resetPasswordToken = token;
   user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+  console.log("User with tokem "+user)
   await user.save();
+
 
   // Send the email
   var transporter = nodemailer.createTransport({
@@ -232,7 +229,7 @@ app.post('/forgot-password', async (req, res) => {
     to: req.body.email,
     from: 'taskDoneProject@outlook.com',
     subject: 'Password Reset',
-    text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\nhttp://${req.headers.host}/reset-password?token=${token}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
+    text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\nhttp://localhost:5173/reset-password?token=${token}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`
   };
   transporter.sendMail(mailOptions);
 
@@ -241,7 +238,7 @@ app.post('/forgot-password', async (req, res) => {
 app.post('/reset-password', async (req, res) => {
   // Find the user with the provided token
   const user = await User.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: { $gt: Date.now() } });
-
+  console.log("user: "+user)
   if (!user) {
     return res.status(400).send('Password reset token is invalid or has expired.');
   }
@@ -254,8 +251,9 @@ app.post('/reset-password', async (req, res) => {
   // Hash the new password and update the user's password in the database
   user.password = await bcrypt.hash(req.body.password, 10);
   user.resetPasswordToken = undefined;
-  user.resetPasswordExpires = undefined;
+  user.resetPasswordExpires = undefined; 
   await user.save();
+  console.log("User2 : "+user)
 
   res.status(200).send('Password has been updated.');
 });

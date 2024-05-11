@@ -11,6 +11,7 @@ import NewListPage from "./Pages/NewListPage";
 import ViewListPage from "./Pages/ViewListPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 import VerfiyEmail from "./Pages/VerifyEmail"
+import ResetPasswordPage from "./Pages/ResetPasswordPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -51,6 +52,9 @@ const router = createBrowserRouter([
   {
     path: "/ForgotPasswordPage",
     element: <ForgotPasswordPage />,
+  },  {
+    path: "/reset-password",
+    element: <ResetPasswordPage />,
   },
 ]);
 
