@@ -4,16 +4,16 @@ import NavBar from "../Components/NavBar";
 import "../CSS_Files/image.css";
 import { useNavigate } from "react-router-dom";
 
-const ProfilePage = () => {
+const ProfilePage =  () => {
+  // Fetch the user data from the database
+
   const nav = useNavigate();
   const [profilePic, setProfilePic] = useState(
     localStorage.getItem("profilePic") || "src/profile.jpg"
   );
   const user = JSON.parse(localStorage.getItem("user"));
-  const userEmail=user.email;
-  const userName=user.username;
-
-
+  const userEmail = user.email;
+  const userName = user.username;
 
   const handleUpload = (event) => {
     const file = event.target.files[0];

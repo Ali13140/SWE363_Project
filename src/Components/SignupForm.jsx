@@ -192,7 +192,7 @@ const SignupForm = () => {
           className="btn btn-success btn-block"
           style={{ width: "50%" }}
         >
-          Sign in
+          Sign Up
         </button>
 
         <div className="mt-3">
