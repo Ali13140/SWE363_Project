@@ -19,7 +19,6 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB");
-    console.log(process.env.MONGODB_URI)
     const port = process.env.PORT || 5000;
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
@@ -207,7 +206,6 @@ app.post('/users/forgot-password', async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
   user.resetPasswordToken = token;
   user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-  console.log("User with tokem "+user)
   await user.save();
 
 
@@ -236,7 +234,6 @@ app.post('/users/forgot-password', async (req, res) => {
 app.post('/reset-password', async (req, res) => {
   // Find the user with the provided token
   const user = await User.findOne({ resetPasswordToken: req.body.token, resetPasswordExpires: { $gt: Date.now() } });
-  console.log("user: "+user)
   if (!user) {
     return res.status(400).send('Password reset token is invalid or has expired.');
   }
@@ -251,7 +248,6 @@ app.post('/reset-password', async (req, res) => {
   user.resetPasswordToken = undefined;
   user.resetPasswordExpires = undefined; 
   await user.save();
-  console.log("User2 : "+user)
 
   res.status(200).send('Password has been updated.');
 });

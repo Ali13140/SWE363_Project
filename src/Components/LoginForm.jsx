@@ -11,8 +11,6 @@ const SignInForm = () => {
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log("Hello?")
-    console.log("Debug: ")
 
     try {
       // Send a post request to your server with the email and password
