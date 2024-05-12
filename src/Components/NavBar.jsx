@@ -12,7 +12,7 @@ const NavBar = () => {
     localStorage.getItem("theme") === "dark"
   );
   const [profilePic, setProfilePic] = useState(
-    localStorage.getItem("profilePic") || "src/profile.jpg"
+    localStorage.getItem("profilePic") || "https://cdn-icons-png.freepik.com/256/552/552848.png?semt=ais_hybrid"
   );
 
   const navigate = useNavigate();
