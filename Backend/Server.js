@@ -2,13 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/users"); // replace with path to your User model
 const crypto = require('crypto');
-
-
 const cors = require("cors");
 const nodemailer=require("nodemailer");
 const bcrypt = require('bcrypt');
 const saltRounds = 10; // Define the number of salt rounds
-
+require('dotenv').config();
 
 const app = express();
 
@@ -18,9 +16,7 @@ app.use(express.json())
 
 // Connect to MongoDB
 mongoose
-  .connect(
-    "mongodb://ikh1324657980:132qewadszcx@ac-rn9zuhq-shard-00-00.7sh9oto.mongodb.net:27017,ac-rn9zuhq-shard-00-01.7sh9oto.mongodb.net:27017,ac-rn9zuhq-shard-00-02.7sh9oto.mongodb.net:27017/?ssl=true&replicaSet=atlas-df5h6i-shard-0&authSource=admin&retryWrites=true&w=majority&appName=SWE"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("Connected to MongoDB");
     const port = process.env.PORT || 5000;
@@ -31,6 +27,7 @@ mongoose
   .catch((error) => {
     console.error("Error connecting to MongoDB", error);
   });
+
 
 // Define a route to get all users
 app.get("/users", async (req, res) => {
@@ -110,13 +107,14 @@ app.post('/sendVerificationEmail', async (req, res) => {
       secureConnection: false,
       port: 587,
       auth: {
-        user: "taskDoneProject@outlook.com",
-        pass: "taskDoneSWE"
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
       },
       tls: {
         ciphers:'SSLv3'
       }
     });
+
     
 
     // Send the email
@@ -201,7 +199,6 @@ app.post('/login', async (req, res) => {
 
 app.post('/users/forgot-password', async (req, res) => {
   // Generate a random token
-  console.error("Here?")
 
   const token = crypto.randomBytes(20).toString('hex');
 
