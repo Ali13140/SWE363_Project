@@ -14,7 +14,7 @@ const SignInForm = () => {
 
     try {
       // Send a post request to your server with the email and password
-      const user = await axios.post("http://localhost:5000/login", {
+      const user = await axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, {
         email,
         password,
       });

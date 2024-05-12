@@ -33,7 +33,7 @@ const SignupForm = () => {
   
     if (isPasswordValid(passwordInput)) {
       // Check if user with the same email already exists
-      const existingUser = await axios.get(`http://localhost:5000/users/check/${emailInput.value}`);
+      const existingUser = await axios.get(`${process.env.REACT_APP_SERVER_URL}/users/check/${emailInput.value}`);
 
       if (existingUser.data) {
         alert('User with the same email already exists');
@@ -44,7 +44,7 @@ const SignupForm = () => {
       const verificationCode = Math.floor(100000 + Math.random() * 900000);
   
       // Send verification email
-      await axios.post('http://localhost:5000/sendVerificationEmail', { email: emailInput.value, code: verificationCode });
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/sendVerificationEmail`, { email: emailInput.value, code: verificationCode });
       let user= { firstName: firstNameInput.value, lastName: lastNameInput.value, username: userNameInput.value, email: emailInput.value, password: passwordInput }
       // Navigate to password verification page
       localStorage.setItem("code",verificationCode)

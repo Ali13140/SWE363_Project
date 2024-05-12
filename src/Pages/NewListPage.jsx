@@ -22,7 +22,7 @@ const NewListPage = () => {
   useEffect(() => {
     if (location.state && location.state.taskId) {
       const url =
-        `http://localhost:5000/users/${userName}/tasks/` + location.state.taskId;
+        `${process.env.REACT_APP_SERVER_URL}/users/${userName}/tasks/` + location.state.taskId;
       axios
         .get(url)
         .then((response) => {
@@ -95,7 +95,7 @@ const NewListPage = () => {
         else status = itemDate < today ? "Due" : "Other";
         newItem._id = id;
         axios
-          .put(`http://localhost:5000/users/${userName}/tasks/${id}`, newItem)
+          .put(`${process.env.REACT_APP_SERVER_URL}/users/${userName}/tasks/${id}`, newItem)
           .then((response) => {
             // Handle successful update
             nav("/ViewListPage",{state: {
@@ -110,7 +110,7 @@ const NewListPage = () => {
       } else {
         // If id is not set, we're creating a new task
         axios
-          .post(`http://localhost:5000/users/${userName}/tasks`, newItem)
+          .post(`${process.env.REACT_APP_SERVER_URL}/users/${userName}/tasks`, newItem)
           .then((response) => {
             // Handle successful creation
             nav("/ViewListPage",{state: {

@@ -32,7 +32,7 @@ const ResetPasswordPage = () => {
       }
 
       try {
-        await axios.post("http://localhost:5000/reset-password", {
+        await axios.post(`${process.env.REACT_APP_SERVER_URL}/reset-password`, {
           token,
           password,
           confirmPassword,

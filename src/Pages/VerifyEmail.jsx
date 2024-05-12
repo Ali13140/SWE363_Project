@@ -20,7 +20,7 @@ const ForgotPasswordPage = () => {
 
     if (enteredCode === localStorage.getItem("code")) {
       // Save the user in the database
-      await axios.post('http://localhost:5000/users', user);
+      await axios.post(`${process.env.REACT_APP_SERVER_URL}/users`, user);
       // Navigate to home page
       localStorage.removeItem("code")
 
