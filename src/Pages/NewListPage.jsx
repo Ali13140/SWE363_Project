@@ -22,7 +22,7 @@ const NewListPage = () => {
   useEffect(() => {
     if (location.state && location.state.taskId) {
       const url =
-        `${process.env.REACT_APP_SERVER_URL}/users/${userName}/tasks/` + location.state.taskId;
+        `https://swe363project-production.up.railway.app/users/${userName}/tasks/` + location.state.taskId;
       axios
         .get(url)
         .then((response) => {
@@ -95,7 +95,7 @@ const NewListPage = () => {
         else status = itemDate < today ? "Due" : "Other";
         newItem._id = id;
         axios
-          .put(`${process.env.REACT_APP_SERVER_URL}/users/${userName}/tasks/${id}`, newItem)
+          .put(`https://swe363project-production.up.railway.app/users/${userName}/tasks/${id}`, newItem)
           .then((response) => {
             // Handle successful update
             nav("/ViewListPage",{state: {
@@ -110,7 +110,7 @@ const NewListPage = () => {
       } else {
         // If id is not set, we're creating a new task
         axios
-          .post(`${process.env.REACT_APP_SERVER_URL}/users/${userName}/tasks`, newItem)
+          .post(`https://swe363project-production.up.railway.app/users/${userName}/tasks`, newItem)
           .then((response) => {
             // Handle successful creation
             nav("/ViewListPage",{state: {

@@ -29,7 +29,7 @@ const ViewListPage = () => {
   // Fetch tasks from the server when the component mounts
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/users/${userName}`) // Replace with the actual URL and username
+      .get(`https://swe363project-production.up.railway.app/users/${userName}`) // Replace with the actual URL and username
       .then((response) => {
         const sortedData = sortItems(response.data.tasks);
         setData(sortedData);
@@ -71,7 +71,7 @@ const ViewListPage = () => {
     // Update the task on the server
     try {
       const response = await axios.put(
-        `${process.env.REACT_APP_SERVER_URL}/users/${userName}/tasks/${taskId}`,
+        `https://swe363project-production.up.railway.app/users/${userName}/tasks/${taskId}`,
         updatedTasks[taskIndex]
       );
       // Update the task in your local state with the server's response
@@ -91,7 +91,7 @@ const ViewListPage = () => {
 
     // Send a DELETE request to the server to remove the task from the database
     axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}/users/${userName}/tasks/${taskId}`)
+      .delete(`https://swe363project-production.up.railway.app/users/${userName}/tasks/${taskId}`)
       .then((response) => {
         console.log("Task deleted successfully: ", response.data);
       })

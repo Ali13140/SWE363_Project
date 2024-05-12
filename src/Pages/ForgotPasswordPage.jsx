@@ -18,7 +18,7 @@ const ForgotPasswordPage = () => {
 
     try {
       console.log("email: "+email)
-      await axios.post(`${process.env.REACT_APP_SERVER_URL}/users/forgot-password`, { email });
+      await axios.post(`https://swe363project-production.up.railway.app/users/forgot-password`, { email });
       alert(
         "An email has been sent to " + email + " with further instructions."
       );
