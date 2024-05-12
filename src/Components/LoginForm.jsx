@@ -14,6 +14,7 @@ const SignInForm = () => {
 
     try {
       // Send a post request to your server with the email and password
+      console.log("Debug: "+process.env.REACT_APP_SERVER_URL)
       const user = await axios.post(`${process.env.REACT_APP_SERVER_URL}/login`, {
         email,
         password,
